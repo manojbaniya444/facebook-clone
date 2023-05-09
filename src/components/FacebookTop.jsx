@@ -93,6 +93,7 @@ const FTWrapper = styled.div`
   //Padding side 20px
   position: sticky;
   top: 0;
+  z-index: 9;
   display: flex;
   background-color: white;
   align-items: center;

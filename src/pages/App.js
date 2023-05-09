@@ -4,6 +4,7 @@ import FacebookTop from "../components/FacebookTop";
 import { ThemeProvider } from "styled-components";
 import { AppContextProvider } from "../context/context";
 import FacebookSideLeft from "../components/FacebookSideLeft";
+import FacebookMiddle from "../components/FacebookMiddle";
 
 const theme = {
   colors: {
@@ -25,15 +26,18 @@ const App = () => {
           {/* Facebook-top */}
           <FacebookTop />
 
-          {/* sidebar--left */}
-          <FacebookSideLeft />
+          <MainContentWrapper>
+            {/* sidebar--left */}
+            {/* <FacebookSideLeft /> */}
 
-          {/* middle--bar */}
-          {/* Reels and stories */}
-          {/* create--post */}
-          {/* feeds */}
+            {/* middle--bar */}
+            <FacebookMiddle />
+            {/* Reels and stories */}
+            {/* create--post */}
+            {/* feeds */}
 
-          {/* sidebar--right */}
+            {/* sidebar--right */}
+          </MainContentWrapper>
         </AppWrapper>
       </ThemeProvider>
     </AppContextProvider>
@@ -42,6 +46,15 @@ const App = () => {
 
 const AppWrapper = styled.main`
   height: 999px;
+`;
+
+const MainContentWrapper = styled.main`
+
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 20px;
+
 `;
 
 export default App;
