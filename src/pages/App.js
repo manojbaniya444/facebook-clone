@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import FacebookTop from "../components/FacebookTop";
 import { ThemeProvider } from "styled-components";
 import { AppContextProvider } from "../context/context";
 import FacebookSideLeft from "../components/FacebookSideLeft";
 import FacebookMiddle from "../components/FacebookMiddle";
+import FacebookSideRight from "../components/FacebookSideRight";
 
 const theme = {
   colors: {
@@ -23,38 +24,45 @@ const App = () => {
     <AppContextProvider>
       <ThemeProvider theme={theme}>
         <AppWrapper>
-          {/* Facebook-top */}
+          {/* //full */}
           <FacebookTop />
-
+          {/* //middle */}
           <MainContentWrapper>
-            {/* sidebar--left */}
-            {/* <FacebookSideLeft /> */}
-
-            {/* middle--bar */}
+            <FacebookSideLeft />
             <FacebookMiddle />
-            {/* Reels and stories */}
-            {/* create--post */}
-            {/* feeds */}
-
-            {/* sidebar--right */}
+            <FacebookSideRight />
           </MainContentWrapper>
+          {/* //middle end */}
         </AppWrapper>
+        {/* //end full */}
       </ThemeProvider>
     </AppContextProvider>
   );
 };
 
 const AppWrapper = styled.main`
-  height: 999px;
+  /* height: 999px; */
 `;
 
 const MainContentWrapper = styled.main`
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
+  @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+    display: flex;
+    justify-content: center;
+  }
 
-display: flex;
-align-items: center;
-justify-content: center;
-margin-top: 20px;
+  @media (min-width: ${({theme})=> theme.responsive.mobile}){
+    grid-template-columns: 1fr 1fr;
+  }
 
+  @media (min-width: ${({theme})=> theme.responsive.tablet}){
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
 
 export default App;

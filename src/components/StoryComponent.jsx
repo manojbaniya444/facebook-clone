@@ -30,12 +30,17 @@ const StoryComponent = () => {
 
 const SCWrapper = styled.article`
   padding: 15px 9px;
+  cursor: pointer;
   .wrapper {
     width: 120px;
     height: 200px;
     background-color: red;
     position: relative;
     border-radius: 13px;
+    transition: .3s ease;
+    &:hover{
+      transform: scale(1.01);
+    }
     .avatar {
       position: absolute;
       top: 10px;

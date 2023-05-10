@@ -35,7 +35,7 @@ const SMWrapper = styled.section`
     top: 0px;
     left: 0px;
     background-color: white;
-    height: 400px;
+    /* height: 400px; */
     padding: 5px 20px;
     border-radius: 9px;
     box-shadow: 1px 1px 21px -9px rgba(0, 0, 0, 0.5);

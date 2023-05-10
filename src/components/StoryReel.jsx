@@ -3,8 +3,21 @@ import styled from "styled-components";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import MovieCreationIcon from "@mui/icons-material/MovieCreation";
 import StoryComponent from "./StoryComponent";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { IconButton } from "@mui/material";
 
 const StoryReel = () => {
+  const slide = document.getElementById("slider");
+
+  const slideLeftHandler = () => {
+    slide.scrollLeft -= 400;
+  };
+
+  const slideRightHandler = () => {
+    slide.scrollLeft += 400;
+  };
+
   return (
     <SRWrapper>
       <div className="SR-top">
@@ -20,12 +33,23 @@ const StoryReel = () => {
       <hr />
 
       {/* TODO:create more reels */}
-      <div className="story-component">
+      <div className="start-icon" onClick={slideLeftHandler} id="left-slide">
+        <ArrowBackIosIcon />
+      </div>
+      <div className="story-component" id="slider">
         <StoryComponent />
         <StoryComponent />
         <StoryComponent />
         <StoryComponent />
         <StoryComponent />
+        <StoryComponent />
+        <StoryComponent />
+        <StoryComponent />
+        <StoryComponent />
+        <StoryComponent />
+      </div>
+      <div className="end-icon" id="right-slide" onClick={slideRightHandler}>
+        <ArrowForwardIosIcon />
       </div>
     </SRWrapper>
   );
@@ -36,8 +60,50 @@ const SRWrapper = styled.section`
   width: 100%;
   background-color: white;
   border-radius: 9px;
+  position: relative;
   /* height: 300px; */
+  .start-icon {
+    position: absolute;
+    top: 140px;
+    left: 10px;
+    z-index: 99;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+    .MuiSvgIcon-root {
+      color: black;
+    }
+  }
+  .end-icon {
+    position: absolute;
+    top: 140px;
+    right: 10px;
+    z-index: 99;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-radius: 999px;
+    &:hover {
+      opacity: 0.8;
+    }
+    cursor: pointer;
+    .MuiSvgIcon-root {
+      color: black;
+    }
+  }
   .story-component {
+    position: relative;
+    scroll-behavior: smooth;
+
     display: flex;
     overflow-y: scroll;
     ::-webkit-scrollbar {
@@ -67,6 +133,11 @@ const SRWrapper = styled.section`
       border-radius: 9px;
       &:hover {
         background-color: ${({ theme }) => theme.colors.gray};
+      }
+    }
+    .active {
+      &:hover {
+        background-color: white;
       }
     }
 

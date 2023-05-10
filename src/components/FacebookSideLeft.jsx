@@ -13,7 +13,6 @@ import HistoryIcon from "@mui/icons-material/History";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const FacebookSideLeft = () => {
@@ -35,24 +34,18 @@ const FacebookSideLeft = () => {
       <SideLeftComponent logo={<HistoryIcon />} text={"Memories"} />
       <SideLeftComponent logo={<CalendarMonthIcon />} text={"Events"} />
       <SideLeftComponent logo={<StarIcon />} text={"Favourites"} />
-
-      {/* More icons and title if showMore-> true */}
       <div className="showmore">
         <IconButton>
           <KeyboardArrowDownIcon />
         </IconButton>
         <h4>See more</h4>
       </div>
-
-      {/* showmore button */}
-
-      {/* showless button */}
-
-      {/* page button -> privacy terms cookies ...more */}
     </FBSLWrapper>
   );
 };
+
 const Profile = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -61,6 +54,7 @@ const Profile = styled.div`
   border-radius: 9px;
   max-width: 270px;
   width: 100%;
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.darkgray};
   }
@@ -71,6 +65,17 @@ const Profile = styled.div`
 `;
 
 const FBSLWrapper = styled.aside`
+  // New Style
+  /* background-color: red; */
+  /* height: 100%; */
+  
+  max-width: 270px;
+  width: 100%;
+  /* TODO: */
+  // New Style end
+  /* position: fixed;
+  left: 0;
+  z-index: 10; */
   .showmore {
     margin: 10px 0 0 15px;
     display: flex;
@@ -78,6 +83,7 @@ const FBSLWrapper = styled.aside`
     max-width: 270px;
     width: 100%;
     border-radius: 9px;
+    cursor: pointer;
     h4 {
       margin-left: 8px;
       font-weight: 600;
@@ -86,7 +92,7 @@ const FBSLWrapper = styled.aside`
       background-color: ${({ theme }) => theme.colors.darkgray};
     }
   }
-  @media (max-width: ${({theme})=> theme.responsive.tablet}){
+  @media (max-width: ${({ theme }) => theme.responsive.tablet}) {
     display: none;
   }
 `;
