@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
@@ -12,9 +12,20 @@ import { Avatar } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import SearchModal from "./SearchModal";
 import { useAppContext } from "../context/context";
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function FacebookTop() {
   const { showModal, setShowModal } = useAppContext();
+
+  const { user, signout, setUser } = useAuthContext();
+  let url = user?.photoURL;
+
+  const navigate = useNavigate();
+
+  const logOut = async () => {
+    await signout();
+  };
   return (
     <>
       <SearchModal />
@@ -77,12 +88,15 @@ function FacebookTop() {
             </div>
           </Tooltip>
 
-          <div className="option-box">
-            <Avatar
-              src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273"
-              sx={{ height: 40, width: 40 }}
-            />
-          </div>
+          <Tooltip title="Logout">
+            <div className="option-box" onClick={logOut}>
+              <Avatar
+                // src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273"
+                src={url}
+                sx={{ height: 40, width: 40 }}
+              />
+            </div>
+          </Tooltip>
         </div>
       </FTWrapper>
     </>

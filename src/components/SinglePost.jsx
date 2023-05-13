@@ -6,7 +6,7 @@ export const SinglePost = ({ src, desc }) => {
   return (
     <SWrapper>
       <div className="Feed-top">
-        <Avatar />
+        <Avatar src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-6/285655908_3373164079578086_2980410443097564711_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=McLZbpI9enwAX_Y0U9J&_nc_ht=scontent.fbir1-1.fna&oh=00_AfALsFT4Gq1sFs8sWrIpESgE42Z-9za4hffkVmWzg0mvZw&oe=646531F1" />
         <div className="title">
           <h4>Manoj Baniya</h4>
           <p>5h .&#x1F310;</p>

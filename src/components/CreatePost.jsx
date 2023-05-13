@@ -1,18 +1,33 @@
 import { Avatar } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import { useAuthContext } from "../context/AuthContext";
 
 const CreatePost = () => {
+  const [input, setInput] = useState("");
+  const { user, submitPost } = useAuthContext();
+
+  const submitPostHandler = async (e) => {
+    e.preventDefault();
+    if (input === "") {
+      alert("Field cannot be empty");
+    } else {
+      await submitPost(input);
+    }
+  };
   return (
     <CPWrapper>
       <div className="CP-top">
-        <Avatar src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273" />
+        <Avatar src={user?.photoURL} />
         <form className="form">
-          <input placeholder={`Whats on your mind, Manoj?`} />
-          <button>Post</button>
+          <input
+            placeholder={`Whats on your mind, ${user?.displayName}?`}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button onClick={(e) => submitPostHandler(e)}>Post</button>
         </form>
       </div>
       <hr />
