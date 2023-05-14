@@ -66,7 +66,7 @@ const SRWrapper = styled.section`
     position: absolute;
     top: 140px;
     left: 10px;
-    z-index: 99;
+    z-index: 3;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -85,7 +85,7 @@ const SRWrapper = styled.section`
     position: absolute;
     top: 140px;
     right: 10px;
-    z-index: 99;
+    z-index: 3;
     background-color: white;
     display: flex;
     justify-content: center;

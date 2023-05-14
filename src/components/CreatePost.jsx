@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
@@ -8,14 +8,23 @@ import { useAuthContext } from "../context/AuthContext";
 
 const CreatePost = () => {
   const [input, setInput] = useState("");
-  const { user, submitPost } = useAuthContext();
+  const [image, setImage] = useState(null);
+  const { user, submitPost, setFetchPost } = useAuthContext();
+  const inputFileRef = useRef();
+  const fileChangeHandler = (e) => {
+    e.preventDefault();
+    const file = inputFileRef.current.files[0];
+    setImage(file);
+  };
 
   const submitPostHandler = async (e) => {
     e.preventDefault();
     if (input === "") {
       alert("Field cannot be empty");
     } else {
-      await submitPost(input);
+      await submitPost(input, image);
+      setInput("");
+      setImage(null);
     }
   };
   return (
@@ -26,19 +35,31 @@ const CreatePost = () => {
           <input
             placeholder={`Whats on your mind, ${user?.displayName}?`}
             onChange={(e) => setInput(e.target.value)}
+            value={input}
           />
           <button onClick={(e) => submitPostHandler(e)}>Post</button>
         </form>
       </div>
+      {image !== null && (
+        <p className="selected-image">Image selected: {image.name}</p>
+      )}
       <hr />
       <div className="CP-bottom">
         <div className="box1">
           <LiveTvIcon style={{ color: "red" }} />
           <h4>Live Video</h4>
         </div>
-        <div className="box1">
+        <div className="box1 file-box">
           <PhotoSizeSelectActualIcon style={{ color: "green" }} />
-          <h4>Photo/video</h4>
+          <input
+            id="submit-file"
+            type="file"
+            ref={inputFileRef}
+            onChange={fileChangeHandler}
+          />
+          <h4>
+            <label htmlFor="submit-file">Photo</label>
+          </h4>
         </div>
         <div className="box1">
           <EmojiEmotionsIcon style={{ color: "orange" }} />
@@ -55,11 +76,24 @@ const CPWrapper = styled.section`
   margin-top: 15px;
   border-radius: 9px;
   padding: 15px;
+  .selected-image {
+    text-align: center;
+    margin: 5px 0px;
+  }
 
   .CP-bottom {
     display: flex;
     padding: 5px;
     gap: 0.3rem;
+
+    .file-box {
+      input {
+        display: none;
+      }
+      /* label {
+        cursor: pointer;
+      } */
+    }
     .box1 {
       display: flex;
       align-items: center;

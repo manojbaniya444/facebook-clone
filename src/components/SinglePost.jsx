@@ -2,27 +2,25 @@ import { Avatar, Typography } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 
-export const SinglePost = ({ src, desc }) => {
+export const SinglePost = ({ src, desc, profilesrc ,username,time}) => {
   return (
     <SWrapper>
       <div className="Feed-top">
-        <Avatar src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-6/285655908_3373164079578086_2980410443097564711_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=McLZbpI9enwAX_Y0U9J&_nc_ht=scontent.fbir1-1.fna&oh=00_AfALsFT4Gq1sFs8sWrIpESgE42Z-9za4hffkVmWzg0mvZw&oe=646531F1" />
+        <Avatar src={profilesrc} />
         <div className="title">
-          <h4>Manoj Baniya</h4>
-          <p>5h .&#x1F310;</p>
+          <h4>{username}</h4>
+          <p>{time}&#x1F310;</p>
         </div>
       </div>
       <div className="description">
         <Typography variant="body1">{desc}</Typography>
       </div>
-      <div className="image">
-        <img src={src} alt="/" />
-      </div>
+      <div className="image">{src !== "" && <img src={src} alt="/" />}</div>
       <div className="Feed-bottom">
-        <h4>1 like</h4>
+        {/* <h4>1 like</h4>
         <div className="like">
           <button>Like</button>
-        </div>
+        </div> */}
       </div>
     </SWrapper>
   );
