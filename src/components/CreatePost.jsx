@@ -5,11 +5,15 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import { useAuthContext } from "../context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreatePost = () => {
   const [input, setInput] = useState("");
   const [image, setImage] = useState(null);
-  const { user, submitPost, setFetchPost } = useAuthContext();
+  const [uploadLoading, setUploadLoading] = useState(false);
+
+  const { user, submitPost } = useAuthContext();
   const inputFileRef = useRef();
   const fileChangeHandler = (e) => {
     e.preventDefault();
@@ -19,16 +23,48 @@ const CreatePost = () => {
 
   const submitPostHandler = async (e) => {
     e.preventDefault();
-    if (input === "") {
-      alert("Field cannot be empty");
+    if (input === "" && image === null) {
+      toast.warn("Field cannot be empty", {
+        position: "top-center",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
       await submitPost(input, image);
       setInput("");
       setImage(null);
+      toast.success("Posted successfully", {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
+
   return (
     <CPWrapper>
+      <ToastContainer
+        position="top-center"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="CP-top">
         <Avatar src={user?.photoURL} />
         <form className="form">
@@ -37,7 +73,12 @@ const CreatePost = () => {
             onChange={(e) => setInput(e.target.value)}
             value={input}
           />
-          <button onClick={(e) => submitPostHandler(e)}>Post</button>
+          <button
+            onClick={(e) => submitPostHandler(e)}
+            // disabled={input === "" && true}
+          >
+            {!uploadLoading ? "Post" : "..."}
+          </button>
         </form>
       </div>
       {image !== null && (
@@ -83,8 +124,11 @@ const CPWrapper = styled.section`
 
   .CP-bottom {
     display: flex;
-    padding: 5px;
+    padding: 0.3rem;
     gap: 0.3rem;
+    @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+      margin-top: 5px;
+    }
 
     .file-box {
       input {
@@ -106,6 +150,13 @@ const CPWrapper = styled.section`
       transition: 0.1s ease;
       &:hover {
         background-color: ${({ theme }) => theme.colors.gray};
+      }
+      @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+        max-width: 30%;
+        padding: 5px 10px;
+        h4 {
+          font-size: 12px;
+        }
       }
     }
     h4 {
@@ -131,8 +182,12 @@ const CPWrapper = styled.section`
         border-radius: 9px;
         outline: none;
         border: none;
-        font-size: 1.3rem;
+        font-size: 1rem;
         background-color: ${({ theme }) => theme.colors.gray};
+        @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+          padding: 0.71rem 1.3rem;
+          font-size: large.9rem;
+        }
       }
       button {
         margin-right: 5px;
@@ -147,6 +202,10 @@ const CPWrapper = styled.section`
         transition: 0.3s ease;
         &:hover {
           background-color: #1262b3;
+        }
+        @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+          padding: 0.71rem 1.3rem;
+          font-size: .9rem;
         }
       }
     }

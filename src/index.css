@@ -11,10 +11,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f2f5 ;
-  /* width: 100%;
-  max-width: 2000px;
+  width: 100%;
+  max-width: 1400px;
   margin-left: 50%;
-  transform: translateX(-50%); */
+  transform: translateX(-50%);
 }
 
 code {

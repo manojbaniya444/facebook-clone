@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCQxPgKdWbRdhWHzbiafhUDQapzEE092AA",
-  authDomain: "facebook-clone-c49f2.firebaseapp.com",
-  projectId: "facebook-clone-c49f2",
-  storageBucket: "facebook-clone-c49f2.appspot.com",
-  messagingSenderId: "338148041000",
-  appId: "1:338148041000:web:0fafa1d2608f784560701d",
+  apiKey: "AIzaSyAyZwHf9c2luFuyfpGUiti4oZ54R8UfdNM",
+  authDomain: "facebook-clone-4c42b.firebaseapp.com",
+  projectId: "facebook-clone-4c42b",
+  storageBucket: "facebook-clone-4c42b.appspot.com",
+  messagingSenderId: "816971841196",
+  appId: "1:816971841196:web:efa03b209d1076ad206909",
 };
 
 const app = initializeApp(firebaseConfig);

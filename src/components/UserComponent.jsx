@@ -2,11 +2,11 @@ import { Avatar, Typography } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 
-const UserComponent = () => {
+const UserComponent = ({ profile, username }) => {
   return (
     <UCWrapper>
-      <Avatar />
-      <Typography variant="p">Manoj Baniya</Typography>
+      <Avatar src={profile} />
+      <Typography variant="p">{username}</Typography>
     </UCWrapper>
   );
 };

@@ -18,9 +18,10 @@ const FMWrapper = styled.div`
   max-width: 600px;
   width: 100%;
   padding: 0 10px;
+  /* flex-basis: 45%; */
 
-  @media (min-width: ${({ theme }) => theme.responsive.tablet}) {
-    /* margin-left: 290px; */
+  @media (max-width: ${({ theme }) => theme.responsive.tablet}) {
+    padding: 0px;
   }
 `;
 

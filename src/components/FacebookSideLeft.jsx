@@ -17,14 +17,14 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useAuthContext } from "../context/AuthContext";
 
 const FacebookSideLeft = () => {
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   return (
     <FBSLWrapper>
       {/* avatar and profile link */}
       <Profile className="profile-link">
-        <Avatar 
-        // src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273" 
-        src={user?.photoURL}
+        <Avatar
+          // src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273"
+          src={user?.photoURL}
         />
         <h4>{user?.displayName}</h4>
       </Profile>
@@ -70,12 +70,10 @@ const Profile = styled.div`
 `;
 
 const FBSLWrapper = styled.aside`
-  // New Style
-  /* background-color: red; */
-  /* height: 100%; */
-  
-  max-width: 270px;
   width: 100%;
+  height: 100vh;
+  flex-basis: 22%;
+  max-width: 500px;
   /* TODO: */
   // New Style end
   /* position: fixed;

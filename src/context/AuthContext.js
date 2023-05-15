@@ -2,10 +2,10 @@ import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, provider } from "../firebaseConfig";
 import { database } from "../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Firestore, setDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebaseConfig";
-
+import { serverTimestamp } from "firebase/firestore";
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   provider.addScope("openid");
   provider.addScope("email");
 
+  //Auth
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -27,12 +28,27 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  const signIn = () => {
-    return signInWithPopup(auth, provider);
+  const signIn = async () => {
+    const res = await signInWithPopup(auth, provider);
+
+    const usersRef = collection(database, "users");
+    addDoc(usersRef, {
+      username: res?.user.displayName,
+      userid: res?.user.uid,
+      profileURL: res?.user.photoURL,
+      timestamp: serverTimestamp(),
+    });
+    return true;
   };
   const signout = () => {
     signOut(auth);
   };
+
+  // Add all users
+
+  const saveUser = (users) => {};
+
+  //Feeds
   const submitPost = async (data, image) => {
     if (image == null) {
       let url = "";
@@ -42,7 +58,7 @@ export const AuthProvider = ({ children }) => {
         author: user?.displayName,
         userId: user?.uid,
         imageURL: url,
-        timestamp: "2023",
+        timestamp: serverTimestamp(),
         profileURL: user?.photoURL,
       });
     } else {
@@ -55,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             author: user?.displayName,
             userId: user?.uid,
             imageURL: url,
-            timestamp: "2023",
+            timestamp: serverTimestamp(),
             profileURL: user?.photoURL,
           });
         });
@@ -63,6 +79,25 @@ export const AuthProvider = ({ children }) => {
     }
     return true;
   };
+
+  //Story
+  const postStory = (image) => {
+    const imageRef = ref(storage, `storyImages/${image.name}`);
+    uploadBytes(imageRef, image).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        const storyRef = collection(database, "stories");
+        addDoc(storyRef, {
+          author: user?.displayName,
+          userId: user?.uid,
+          imageURL: url,
+          profileURL: user?.photoURL,
+        });
+      });
+    });
+    return true;
+  };
+
+  //Pass
   const object = {
     signIn,
     user,
@@ -70,6 +105,7 @@ export const AuthProvider = ({ children }) => {
     setUser,
     loading,
     submitPost,
+    postStory,
   };
 
   return <authContext.Provider value={object}>{children}</authContext.Provider>;
