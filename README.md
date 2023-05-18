@@ -14,4 +14,3 @@ You can check the live demo []
 - Firebase
 - Styled Components
 - Material Icons
-- React toastify
