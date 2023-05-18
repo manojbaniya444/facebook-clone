@@ -216,6 +216,7 @@ const SRWrapper = styled.section`
     align-items: center;
     padding: 15px;
     border-radius: 999px;
+    opacity: 0.3;
     cursor: pointer;
     @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
       display: none;
@@ -234,6 +235,7 @@ const SRWrapper = styled.section`
     top: 140px;
     right: 10px;
     z-index: 3;
+    opacity: 0.3;
     background-color: white;
     display: flex;
     justify-content: center;

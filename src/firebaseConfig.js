@@ -3,15 +3,6 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyA8jZAr5519lJ936YLtyAl98lldnRWMk5o",
-//   authDomain: "facebookclone-5704e.firebaseapp.com",
-//   projectId: "facebookclone-5704e",
-//   storageBucket: "facebookclone-5704e.appspot.com",
-//   messagingSenderId: "321065020477",
-//   appId: "1:321065020477:web:36c7423a2260240cc38e54",
-// };
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,

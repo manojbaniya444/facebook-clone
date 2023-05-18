@@ -31,12 +31,12 @@ const Home = () => {
 
   return (
     <>
-      <FacebookTop />
       {isVisible && (
         <Button onClick={scrollToTop}>
           <ArrowUpwardIcon />
         </Button>
       )}
+      <FacebookTop />
       <MainContentWrapper>
         <FacebookSideLeft />
         <FacebookMiddle />
@@ -49,11 +49,12 @@ const Button = styled.div`
   position: fixed;
   bottom: 30px;
   right: 20px;
-  background-color: white;
+  background-color: gray;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  z-index: 9999;
 `;
 
 const MainContentWrapper = styled.main`
@@ -65,8 +66,6 @@ const MainContentWrapper = styled.main`
   display: flex;
   align-items: start;
   gap: 1rem;
-
-
 
   /* New Code */
   @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
