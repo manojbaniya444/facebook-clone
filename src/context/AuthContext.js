@@ -1,3 +1,4 @@
+import Resizer from "react-image-file-resizer";
 import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, provider } from "../firebaseConfig";
@@ -48,6 +49,25 @@ export const AuthProvider = ({ children }) => {
 
   const saveUser = (users) => {};
 
+  // Compress File
+
+  // const ResizeFile = (file) =>
+  //   new Promise((resolve) => {
+  //     Resizer.imageFileResizer(
+  //       file,
+  //       300,
+  //       300,
+  //       "JPEG",
+  //       100,
+  //       0,
+  //       (uri) => {
+  //         resolve(uri);
+  //         console.log(uri)
+  //       },
+  //       "base64"
+  //     );
+  //   });
+
   //Feeds
   const submitPost = async (data, image) => {
     if (image == null) {
@@ -60,6 +80,7 @@ export const AuthProvider = ({ children }) => {
         imageURL: url,
         timestamp: serverTimestamp(),
         profileURL: user?.photoURL,
+        comments: [],
       });
     } else {
       const imageRef = ref(storage, `images/${image.name}`);
@@ -73,6 +94,7 @@ export const AuthProvider = ({ children }) => {
             imageURL: url,
             timestamp: serverTimestamp(),
             profileURL: user?.photoURL,
+            comments: [],
           });
         });
       });

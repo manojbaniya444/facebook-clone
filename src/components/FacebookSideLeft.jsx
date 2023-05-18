@@ -71,14 +71,19 @@ const Profile = styled.div`
 
 const FBSLWrapper = styled.aside`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 77px);
   flex-basis: 22%;
   max-width: 500px;
   /* TODO: */
   // New Style end
-  /* position: fixed;
-  left: 0;
-  z-index: 10; */
+  position: sticky;
+  flex: 25%;
+  top: 77px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   .showmore {
     margin: 10px 0 0 15px;
     display: flex;

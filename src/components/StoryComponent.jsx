@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useAuthContext } from "../context/AuthContext";
 
 const StoryComponent = ({ username, profilesrc, imagesrc }) => {
-  const { user } = useAuthContext();
   return (
     <SCWrapper>
       <div
@@ -29,7 +28,7 @@ const SCWrapper = styled.article`
   .wrapper {
     width: 120px;
     height: 200px;
-    background-color: ${({theme})=> theme.colors.gray};
+    background-color: ${({ theme }) => theme.colors.gray};
     position: relative;
     border-radius: 13px;
     transition: 0.3s ease;
@@ -51,8 +50,7 @@ const SCWrapper = styled.article`
       font-weight: 600;
       font-size: 1rem;
     }
-    @media (max-width: ${({theme})=> theme.responsive.mobile})
-    {
+    @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
       width: 110px;
       height: 180px;
     }

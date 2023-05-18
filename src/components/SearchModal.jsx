@@ -1,12 +1,11 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useAppContext } from "../context/context";
 
-
 const SearchModal = () => {
-const {showModal,setShowModal} = useAppContext();
+  const { showModal, setShowModal } = useAppContext();
   return (
     <SMWrapper>
       {showModal && (
@@ -69,7 +68,7 @@ const SMWrapper = styled.section`
         border-radius: 999px;
         margin: 5px;
       }
-      .input:focus{
+      .input:focus {
         outline: none;
       }
     }

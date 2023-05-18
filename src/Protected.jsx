@@ -6,6 +6,7 @@ import { Audio } from "react-loader-spinner";
 
 const Protected = ({ children }) => {
   const { user, loading } = useAuthContext();
+
   if (loading) {
     return (
       <Loading>

@@ -20,6 +20,9 @@ const FMWrapper = styled.div`
   padding: 0 10px;
   /* flex-basis: 45%; */
 
+  //new
+  flex: 40%;
+  position: sticky;
   @media (max-width: ${({ theme }) => theme.responsive.tablet}) {
     padding: 0px;
   }

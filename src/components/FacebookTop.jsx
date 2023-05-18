@@ -18,10 +18,8 @@ import { useNavigate } from "react-router-dom";
 function FacebookTop() {
   const { showModal, setShowModal } = useAppContext();
 
-  const { user, signout, setUser } = useAuthContext();
+  const { user, signout } = useAuthContext();
   let url = user?.photoURL;
-
-  const navigate = useNavigate();
 
   const logOut = async () => {
     await signout();

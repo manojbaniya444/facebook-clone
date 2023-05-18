@@ -1,9 +1,9 @@
-import { Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import UserComponent from "./UserComponent";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebaseConfig";
+import { Typography } from "@mui/material";
 
 const FacebookSideRight = () => {
   const [loggedUsers, setLoggedUsers] = useState();
@@ -49,9 +49,15 @@ const FacebookSideRight = () => {
 
 const FBSRWrapper = styled.section`
   display: none;
-  height: 100vh;
+  height: calc(100vh - 77px);
   align-self: top;
   flex-basis: 230px;
+
+  //new
+
+  position: sticky;
+  flex: 25%;
+  top: 77px;
 
   //new
   .allusers {

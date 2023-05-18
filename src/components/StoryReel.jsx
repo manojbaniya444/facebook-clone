@@ -5,7 +5,7 @@ import MovieCreationIcon from "@mui/icons-material/MovieCreation";
 import StoryComponent from "./StoryComponent";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, onSnapshot } from "firebase/firestore";
@@ -117,7 +117,7 @@ const StoryReel = () => {
           )}
 
           <div className="image-div">
-            <Avatar src={user?.photoURL} sx={{ height: 60, width: 60 }} />
+            <Avatar src={user?.photoURL} sx={{ height: 50, width: 50 }} />
           </div>
         </div>
 
@@ -217,6 +217,9 @@ const SRWrapper = styled.section`
     padding: 15px;
     border-radius: 999px;
     cursor: pointer;
+    @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+      display: none;
+    }
     &:hover {
       opacity: 0.8;
     }
@@ -237,6 +240,9 @@ const SRWrapper = styled.section`
     align-items: center;
     padding: 15px;
     border-radius: 999px;
+    @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+      display: none;
+    }
     &:hover {
       opacity: 0.8;
     }

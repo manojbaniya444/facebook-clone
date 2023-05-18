@@ -15,9 +15,13 @@ const CreatePost = () => {
 
   const { user, submitPost } = useAuthContext();
   const inputFileRef = useRef();
-  const fileChangeHandler = (e) => {
+
+  // Functions
+
+  const fileChangeHandler = async (e) => {
     e.preventDefault();
     const file = inputFileRef.current.files[0];
+    // const compressedFile = await ResizeFile(file);
     setImage(file);
   };
 
@@ -49,7 +53,7 @@ const CreatePost = () => {
         theme: "dark",
       });
     }
-  };
+   };
 
   return (
     <CPWrapper>
@@ -205,7 +209,7 @@ const CPWrapper = styled.section`
         }
         @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
           padding: 0.71rem 1.3rem;
-          font-size: .9rem;
+          font-size: 0.9rem;
         }
       }
     }

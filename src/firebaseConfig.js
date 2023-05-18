@@ -3,13 +3,22 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyA8jZAr5519lJ936YLtyAl98lldnRWMk5o",
+//   authDomain: "facebookclone-5704e.firebaseapp.com",
+//   projectId: "facebookclone-5704e",
+//   storageBucket: "facebookclone-5704e.appspot.com",
+//   messagingSenderId: "321065020477",
+//   appId: "1:321065020477:web:36c7423a2260240cc38e54",
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAyZwHf9c2luFuyfpGUiti4oZ54R8UfdNM",
-  authDomain: "facebook-clone-4c42b.firebaseapp.com",
-  projectId: "facebook-clone-4c42b",
-  storageBucket: "facebook-clone-4c42b.appspot.com",
-  messagingSenderId: "816971841196",
-  appId: "1:816971841196:web:efa03b209d1076ad206909",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

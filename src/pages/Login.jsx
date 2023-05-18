@@ -19,8 +19,20 @@ const Login = () => {
   };
   return (
     <LWrapper>
-      <Typography variant="h3">Facebook</Typography>
-      <button onClick={signInHandler}>Continue with google</button>
+      <div className="page">
+        <div className="img">
+          <img
+            src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
+            alt=""
+          />
+        </div>
+        <button onClick={signInHandler}>Continue with google</button>
+      </div>
+      <div className="text">
+        <Typography>
+          <span>Create a Page</span> for a celebrity,brand or business.
+        </Typography>
+      </div>
     </LWrapper>
   );
 };
@@ -32,9 +44,29 @@ const LWrapper = styled.div`
   /* margin-top: 300px; */
   flex-direction: column;
   background-color: #ffffff;
+  border-radius: 9px;
   height: 100vh;
-  button {
+  .text {
     margin-top: 20px;
+  }
+  .page {
+    border-radius: 9px;
+    border-radius: 9px;
+    border-radius: 9px;
+    background: #ffffff;
+    box-shadow: 5px 5px 10px #cfcfcf, -5px -5px 10px #ffffff;
+    padding: 20px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    .img {
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+  button {
     padding: 10px 20px;
     background-color: #1876f2;
     border: none;
@@ -43,7 +75,7 @@ const LWrapper = styled.div`
     font-size: 1.3rem;
     cursor: pointer;
     &:hover {
-      background-color: #073255;
+      background-color: #0f5fa1;
     }
   }
 `;

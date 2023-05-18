@@ -1,13 +1,11 @@
-import React, { useRef } from "react";
-import styled from "styled-components";
+import React from "react";
 import { ThemeProvider } from "styled-components";
 import { AppContextProvider } from "../context/context";
 import Home from "./Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import Protected from "../Protected";
-import { AuthProvider } from "../context/AuthContext";
-import { useAuthContext } from "../context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 const theme = {
   colors: {
@@ -22,7 +20,6 @@ const theme = {
 };
 
 const App = () => {
-  const { user } = useAuthContext();
   return (
     <AppContextProvider>
       {/* <AuthProvider> */}
@@ -34,6 +31,18 @@ const App = () => {
               path="/home"
               element={
                 <Protected>
+                  <ToastContainer
+                    position="top-center"
+                    autoClose={500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                  />
                   <Home />
                 </Protected>
               }

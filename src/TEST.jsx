@@ -6,7 +6,7 @@ import FacebookSideRight from "../components/FacebookSideRight";
 import FacebookTop from "../components/FacebookTop";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
-const Home = () => {
+const TEST = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -60,15 +60,6 @@ const MainContentWrapper = styled.main`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin-top: 20px;
-
-  /* New Code */
-  display: flex;
-  align-items: start;
-  gap: 1rem;
-
-
-
-  /* New Code */
   @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
     display: flex;
     justify-content: center;
@@ -85,4 +76,4 @@ const MainContentWrapper = styled.main`
   }
 `;
 
-export default Home;
+export default TEST;

@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { database } from "../firebaseConfig";
 import { useAuthContext } from "../context/AuthContext";
 import PublicIcon from "@mui/icons-material/Public";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CommentSection from "./CommentSection";
 
 export const SinglePost = ({
   src,
@@ -17,9 +17,10 @@ export const SinglePost = ({
   id,
   userID,
   timeSpecial,
+  comments,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  console.log(time);
+  const [showComment, setShowComment] = useState(false);
 
   const { user } = useAuthContext();
 
@@ -31,51 +32,32 @@ export const SinglePost = ({
     const postRef = doc(database, "posts", id);
     await deleteDoc(postRef);
     setModalOpen(false);
-    toast.info("Post deleted", {
-      position: "top-right",
-      autoClose: 500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      });
   };
 
   return (
     <SWrapper>
       {/* Modal for delete */}
-      {modalOpen && (
-        <Modal>
-          <p>Confirm to delete your post</p>
-          <div className="btns">
-            <button className="btn1" onClick={() => setModalOpen(false)}>
-              Cancel
-            </button>
-            <button className="btn2" onClick={deleteHandler}>
-              Delete
-            </button>
-          </div>
-        </Modal>
-      )}
-      {/* Toast */}
 
-      <ToastContainer
-        position="top-right"
-        autoClose={300}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      {/* Toast */}
 
       {/* Feed Component */}
       <div className="Feed-top">
+        {modalOpen && (
+          <Modal>
+            <p>Confirm to delete your post</p>
+            <div className="btns">
+              <button className="btn1" onClick={() => setModalOpen(false)}>
+                Cancel
+              </button>
+              <button className="btn2" onClick={deleteHandler}>
+                Delete
+              </button>
+            </div>
+          </Modal>
+        )}
+
+        {/* Post Modal */}
+
         <Avatar src={profilesrc} />
         <div className="title">
           <h4>{username}</h4>
@@ -96,7 +78,9 @@ export const SinglePost = ({
             </p>
           )}
         </div>
+
         {/* // Delete button for logged in user an his posts */}
+
         {userID === user?.uid && (
           <button onClick={deletePostHandler}>Delete post</button>
         )}
@@ -105,23 +89,32 @@ export const SinglePost = ({
         <Typography variant="body1">{desc}</Typography>
       </div>
       <div className="image">{src !== "" && <img src={src} alt="/" />}</div>
+
+      {/* Comment Section */}
+      <hr/>
+
       <div className="Feed-bottom">
-        {/* <h4>1 like</h4>
-        <div className="like">
-          <button>Like</button>
-        </div> */}
+        {/* This timespecial is for the special post from the dev at the top of the feed where comment is disabled */}
+        {!timeSpecial && (
+          <button onClick={() => setShowComment(!showComment)}>
+            {showComment ? "Hide Comment" : "Comment"}
+          </button>
+        )}
       </div>
+      {!timeSpecial && showComment && (
+        <CommentSection id={id} commentList={comments} />
+      )}
     </SWrapper>
   );
 };
 const Modal = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 10;
   background-color: ${({ theme }) => theme.colors.darkgray};
-  top: 40%;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
-  padding: 30px;
+  padding: 1.6rem;
   border-radius: 9px;
   p {
     font-size: 1.2rem;
@@ -129,7 +122,7 @@ const Modal = styled.div`
   .btns {
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 1.8rem;
     .btn1 {
       padding: 5px 10px;
       cursor: pointer;
@@ -154,25 +147,27 @@ const SWrapper = styled.article`
   background-color: white;
   margin-top: 15px;
   border-radius: 9px;
+  position: relative;
+  .toast {
+    position: absolute;
+    top: 0;
+  }
   .Feed-bottom {
-    padding: 15px 15px 5px 15px;
-    h4 {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
+    /* TODO: Code */
+    display: flex;
+    margin-top: 5px;
+    justify-content: center;
+    padding-bottom: 10px;
     button {
-      width: 100%;
-      margin-top: 15px;
-      padding: 0.5rem;
-      cursor: pointer;
-      background-color: ${({ theme }) => theme.colors.blue};
-      outline: none;
-      border-radius: 9px;
+      padding: 0.5rem 1rem;
       border: none;
-      color: white;
-      font-size: 1.3rem;
+      background-color: ${({ theme }) => theme.colors.gray};
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      font-weight: 400;
       &:hover {
-        background-color: #1262b3;
+        background-color: ${({ theme }) => theme.colors.darkgray};
       }
     }
   }
@@ -217,7 +212,7 @@ const SWrapper = styled.article`
   }
   .image {
     width: 100%;
-    height: 400px;
+    /* height: 400px; */
     margin-top: 15px;
     img {
       width: 100%;
