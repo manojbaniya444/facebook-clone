@@ -24,6 +24,9 @@ function CommentSection({ id, commentList }) {
 
   const postCommentHandler = async (e) => {
     e.preventDefault();
+    if(comment === ""){
+      return;
+    }
     const docRef = doc(database, "posts", `${id}`);
     await updateDoc(docRef, {
       comments: arrayUnion({

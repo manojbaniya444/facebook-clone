@@ -42,6 +42,7 @@ const Feeds = () => {
             id={item?.id}
             userID={item?.userId}
             comments={item?.comments}
+            likes={item?.likes}
           />
         );
       })}
@@ -49,7 +50,6 @@ const Feeds = () => {
   );
 };
 const FWrapper = styled.section`
-
   .toast {
     position: absolute;
     top: 20px;

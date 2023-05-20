@@ -12,9 +12,9 @@ export const authContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  provider.addScope("profile");
-  provider.addScope("openid");
-  provider.addScope("email");
+  // provider.addScope("profile");
+  // provider.addScope("openid");
+  // provider.addScope("email");
 
   //Auth
   useEffect(() => {
@@ -81,6 +81,7 @@ export const AuthProvider = ({ children }) => {
         timestamp: serverTimestamp(),
         profileURL: user?.photoURL,
         comments: [],
+        likes: [],
       });
     } else {
       const imageRef = ref(storage, `images/${image.name}`);
@@ -95,6 +96,7 @@ export const AuthProvider = ({ children }) => {
             timestamp: serverTimestamp(),
             profileURL: user?.photoURL,
             comments: [],
+            likes: [],
           });
         });
       });

@@ -99,6 +99,7 @@ const CreatePost = () => {
           <input
             id="submit-file"
             type="file"
+            accept="image/*"
             ref={inputFileRef}
             onChange={fileChangeHandler}
           />
