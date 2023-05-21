@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
@@ -8,25 +8,38 @@ import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import AppsIcon from "@mui/icons-material/Apps";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import SearchModal from "./SearchModal";
 import { useAppContext } from "../context/context";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ChatGlobal from "./ChatGlobal";
 
 function FacebookTop() {
+  const [openChatModal, setOpenChatModal] = useState(false);
   const { showModal, setShowModal } = useAppContext();
 
-  const { user, signout } = useAuthContext();
+  const { user, signout, setGuestUser, guestUser } = useAuthContext();
   let url = user?.photoURL;
 
+  const navigate = useNavigate();
+
   const logOut = async () => {
-    await signout();
+    if (guestUser === "Guest") {
+      setGuestUser(null);
+      navigate("/");
+    } else {
+      await signout();
+      // navigate("/");
+    }
   };
   return (
     <>
       <SearchModal />
+      {openChatModal && !guestUser && (
+        <ChatGlobal setOpenChatModal={setOpenChatModal} />
+      )}
 
       <FTWrapper>
         {/* TODO: Search and logo */}
@@ -73,10 +86,15 @@ function FacebookTop() {
               <AppsIcon />
             </div>
           </Tooltip>
-
           <Tooltip title="Chat" placement="bottom">
-            <div className="option-box">
-              <ChatBubbleIcon />
+            <div
+              className={`${
+                openChatModal ? "option-box active-chat" : "option-box"
+              }`}
+            >
+              <IconButton onClick={() => setOpenChatModal(!openChatModal)}>
+                <ChatBubbleIcon />
+              </IconButton>
             </div>
           </Tooltip>
 
@@ -264,6 +282,11 @@ const FTWrapper = styled.div`
     justify-content: space-evenly;
     gap: 0.4rem;
     padding: 5px 0;
+    .active-chat {
+      .MuiSvgIcon-root {
+        color: ${({ theme }) => theme.colors.blue};
+      }
+    }
     .option-box {
       height: 40px;
       width: 40px;

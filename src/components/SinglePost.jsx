@@ -45,7 +45,7 @@ export const SinglePost = ({
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editvalue, setEditvalue] = useState(desc);
   const [isUpdating, setIsUpdating] = useState(false);
-  const { user } = useAuthContext();
+  const { user, guestUser } = useAuthContext();
 
   // TODO:New like feature code
 
@@ -193,7 +193,7 @@ export const SinglePost = ({
 
         {/* // Delete button for logged in user an his posts */}
 
-        {userID === user?.uid && (
+        {!guestUser && userID === user?.uid && (
           <>
             <div
               className="options-bar"
@@ -236,7 +236,7 @@ export const SinglePost = ({
         {/* This timespecial is for the special post from the dev at the top of the feed where comment is disabled */}
 
         {/* //Like button */}
-        {!timeSpecial && (
+        {!timeSpecial && guestUser === null && (
           <button
             className={`${liked ? "active-like-btn" : "like-btn"}`}
             onClick={likeHandler}
@@ -247,14 +247,14 @@ export const SinglePost = ({
         )}
 
         {/* // Comment button */}
-        {!timeSpecial && (
+        {!timeSpecial && guestUser === null && (
           <button onClick={() => setShowComment(!showComment)}>
             <ChatBubbleIcon />
             {showComment ? "Hide Comment" : "Comment"}
           </button>
         )}
         {/* //Share button */}
-        {!timeSpecial && (
+        {!timeSpecial && guestUser === null && (
           <button className="share-btn">
             <ShareIcon />
             Share
@@ -341,6 +341,7 @@ const Modal = styled.div`
       color: white;
       border-radius: 2px;
       font-size: 1.2rem;
+      cursor: pointer;
     }
   }
 `;

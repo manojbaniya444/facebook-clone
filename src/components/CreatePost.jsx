@@ -11,9 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CreatePost = () => {
   const [input, setInput] = useState("");
   const [image, setImage] = useState(null);
-  const [uploadLoading, setUploadLoading] = useState(false);
-
-  const { user, submitPost } = useAuthContext();
+  const { user, submitPost, guestUser } = useAuthContext();
   const inputFileRef = useRef();
 
   // Functions
@@ -27,7 +25,9 @@ const CreatePost = () => {
 
   const submitPostHandler = async (e) => {
     e.preventDefault();
-    if (input === "" && image === null) {
+    if (guestUser) {
+      alert("Login to post");
+    } else if (!guestUser && input === "" && image === null) {
       toast.warn("Field cannot be empty", {
         position: "top-center",
         autoClose: 500,
@@ -39,21 +39,25 @@ const CreatePost = () => {
         theme: "light",
       });
     } else {
-      await submitPost(input, image);
-      setInput("");
-      setImage(null);
-      toast.success("Posted successfully", {
-        position: "top-right",
-        autoClose: 500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      if (guestUser) {
+        alert("Login to post");
+      } else {
+        await submitPost(input, image);
+        setInput("");
+        setImage(null);
+        toast.success("Posted successfully", {
+          position: "top-right",
+          autoClose: 500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
-   };
+  };
 
   return (
     <CPWrapper>
@@ -73,16 +77,15 @@ const CreatePost = () => {
         <Avatar src={user?.photoURL} />
         <form className="form">
           <input
-            placeholder={`Whats on your mind, ${user?.displayName}?`}
+            placeholder={
+              guestUser
+                ? "Login to post"
+                : `Whats on your mind, ${user?.displayName}?`
+            }
             onChange={(e) => setInput(e.target.value)}
             value={input}
           />
-          <button
-            onClick={(e) => submitPostHandler(e)}
-            // disabled={input === "" && true}
-          >
-            {!uploadLoading ? "Post" : "..."}
-          </button>
+          <button onClick={(e) => submitPostHandler(e)}>Post</button>
         </form>
       </div>
       {image !== null && (

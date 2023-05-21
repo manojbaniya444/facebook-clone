@@ -17,7 +17,7 @@ const StoryReel = () => {
   const [stories, setStories] = useState([]);
   const [storyLoading, setStoryLoading] = useState(false);
 
-  const { user, postStory } = useAuthContext();
+  const { user, postStory, guestUser } = useAuthContext();
 
   //JS
 
@@ -88,38 +88,40 @@ const StoryReel = () => {
       {/* // Create Story Component */}
 
       <div className="story-component" id="slider">
-        <div className="create">
-          {/* Conditional Loading for story post */}
+        {!guestUser && (
+          <div className="create">
+            {/* Conditional Loading for story post */}
 
-          {!storyLoading ? (
-            <>
-              <div className="select-photo">
-                <input
-                  type="file"
-                  id="story-file"
-                  ref={inputRef}
-                  onChange={inputChangeHandler}
-                />
-                <label htmlFor="story-file">
-                  <AddIcon />
-                </label>
-                <h3>Share your story</h3>
-                {storyImg !== null && <p>Ready to post</p>}
-                <button onClick={postStoryHandler}>post</button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="loading">
-                <CircularProgress />
-              </div>
-            </>
-          )}
+            {!storyLoading ? (
+              <>
+                <div className="select-photo">
+                  <input
+                    type="file"
+                    id="story-file"
+                    ref={inputRef}
+                    onChange={inputChangeHandler}
+                  />
+                  <label htmlFor="story-file">
+                    <AddIcon />
+                  </label>
+                  <h3>Share your story</h3>
+                  {storyImg !== null && <p>Ready to post</p>}
+                  <button onClick={postStoryHandler}>post</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="loading">
+                  <CircularProgress />
+                </div>
+              </>
+            )}
 
-          <div className="image-div">
-            <Avatar src={user?.photoURL} sx={{ height: 50, width: 50 }} />
+            <div className="image-div">
+              <Avatar src={user?.photoURL} sx={{ height: 50, width: 50 }} />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Story COmponent */}
 

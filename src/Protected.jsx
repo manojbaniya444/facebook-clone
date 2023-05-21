@@ -5,8 +5,30 @@ import styled from "styled-components";
 import { Audio } from "react-loader-spinner";
 
 const Protected = ({ children }) => {
-  const { user, loading } = useAuthContext();
+  const { user, loading, guestUser } = useAuthContext();
 
+  // if (loading) {
+  //   return (
+  //     <Loading>
+  //       <h3>Loading page please wait...</h3>
+  //       <Audio
+  //         height="80"
+  //         width="80"
+  //         radius="9"
+  //         color="#1876f2"
+  //         ariaLabel="loading"
+  //         wrapperStyle
+  //         wrapperClass
+  //       />
+  //     </Loading>
+  //   );
+  // } else if (!user) {
+  //   return <Navigate to="/" />;
+  // } else if (guestUser === "Guest") {
+  //   return children;
+  // } else {
+  //   return children;
+  // }
   if (loading) {
     return (
       <Loading>
@@ -23,10 +45,14 @@ const Protected = ({ children }) => {
       </Loading>
     );
   }
+  if (guestUser) {
+    return children;
+  }
   if (!user) {
     return <Navigate to="/" />;
+  } else {
+    return children;
   }
-  return children;
 };
 
 const Loading = styled.div`

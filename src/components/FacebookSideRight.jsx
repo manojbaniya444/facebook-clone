@@ -3,10 +3,11 @@ import styled from "styled-components";
 import UserComponent from "./UserComponent";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebaseConfig";
-import { Typography } from "@mui/material";
-
+import { useAuthContext } from "../context/AuthContext";
 const FacebookSideRight = () => {
   const [loggedUsers, setLoggedUsers] = useState();
+
+  const { guestUser } = useAuthContext();
 
   useEffect(() => {
     const unsubscribe = async () => {
@@ -33,15 +34,21 @@ const FacebookSideRight = () => {
           <h4>All logged in users</h4>
         </div>
         <hr />
-        {uniqueArray?.map((item, index) => {
-          return (
-            <UserComponent
-              profile={item.profileURL}
-              username={item.username}
-              key={index}
-            />
-          );
-        })}
+        {guestUser ? (
+          <p className="guest">Login to see</p>
+        ) : (
+          <div>
+            {uniqueArray?.map((item, index) => {
+              return (
+                <UserComponent
+                  profile={item.profileURL}
+                  username={item.username}
+                  key={index}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </FBSRWrapper>
   );
@@ -64,6 +71,9 @@ const FBSRWrapper = styled.section`
     /* TODO: */
     /* max-width: 200px;
     width: 100%; */
+    .guest {
+      margin-top: 20px;
+    }
     .top {
       display: flex;
       flex-direction: column;

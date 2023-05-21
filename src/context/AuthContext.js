@@ -7,14 +7,16 @@ import { collection, addDoc, Firestore, setDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebaseConfig";
 import { serverTimestamp } from "firebase/firestore";
+import { Navigate } from "react-router-dom";
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  // provider.addScope("profile");
-  // provider.addScope("openid");
-  // provider.addScope("email");
+  const [guestUser, setGuestUser] = useState(null);
+  provider.addScope("profile");
+  provider.addScope("openid");
+  provider.addScope("email");
 
   //Auth
   useEffect(() => {
@@ -43,6 +45,15 @@ export const AuthProvider = ({ children }) => {
   };
   const signout = () => {
     signOut(auth);
+  };
+
+  // Guest sign in
+
+  const guestSignIn = () => {
+    alert(
+      "You will be logged in as a guest. To use features like POST,COMMENT,LIKE,STORY FEED and GLOBAL CHAT use google login."
+    );
+    setGuestUser("Guest");
   };
 
   // Add all users
@@ -130,6 +141,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     submitPost,
     postStory,
+    guestSignIn,
+    guestUser,
+    setGuestUser,
   };
 
   return <authContext.Provider value={object}>{children}</authContext.Provider>;

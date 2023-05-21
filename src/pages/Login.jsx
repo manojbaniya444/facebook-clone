@@ -6,7 +6,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { signIn } = useAuthContext();
+  const { signIn, guestSignIn, guestUser } = useAuthContext();
   const navigate = useNavigate();
 
   const signInHandler = async () => {
@@ -16,6 +16,11 @@ const Login = () => {
     } catch (err) {
       console.log(err.message);
     }
+  };
+
+  const guestHandler = async () => {
+    guestSignIn();
+    navigate("/home");
   };
   return (
     <LWrapper>
@@ -27,6 +32,9 @@ const Login = () => {
           />
         </div>
         <button onClick={signInHandler}>Continue with google</button>
+        <button className="guest-user" onClick={guestHandler}>
+          Guest
+        </button>
       </div>
       <div className="text">
         <Typography>
@@ -56,13 +64,21 @@ const LWrapper = styled.div`
     background: #ffffff;
     box-shadow: 5px 5px 10px #cfcfcf, -5px -5px 10px #ffffff;
     padding: 20px;
-    height: 200px;
+    /* height: 200px; */
     display: flex;
     flex-direction: column;
     .img {
       width: 100%;
       img {
         width: 100%;
+      }
+    }
+    .guest-user {
+      background-color: ${({ theme }) => theme.colors.gray};
+      margin-top: 15px;
+      color: black;
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.darkgray};
       }
     }
   }
