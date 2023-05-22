@@ -35,7 +35,7 @@ const Login = () => {
       </div>
       <div className="text">
         <Typography>
-          <span>Create a Page</span> for a celebrity,brand or business.
+          <span>"Your Digital Social Hub"</span>
         </Typography>
       </div>
     </LWrapper>
@@ -71,7 +71,7 @@ const LWrapper = styled.div`
         font-weight: 600;
         text-align: center;
         margin-bottom: 5px;
-        color: ${({theme})=> theme.colors.blue};
+        color: ${({ theme }) => theme.colors.blue};
       }
     }
     .guest-user {

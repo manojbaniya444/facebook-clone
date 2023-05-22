@@ -39,7 +39,7 @@ function FacebookTop() {
   const openChatHandler = () => {
     setOpenChatModal(!openChatModal);
     window.scrollTo({
-      top:  0,
+      top: 0,
     });
   };
   return (
@@ -54,7 +54,7 @@ function FacebookTop() {
       <FTWrapper>
         {/* TODO: Search and logo */}
         <div className="FT-left">
-          <img src="./fb-logo.png" alt="facebook-logo" />
+          <img src="./logo.jpeg" alt="facebook-logo" />
 
           <div className="search" onClick={() => setShowModal(true)}>
             <SearchIcon />
@@ -118,11 +118,15 @@ function FacebookTop() {
 
           <Tooltip title="Logout">
             <div className="option-box" onClick={logOut}>
-              <Avatar
-                // src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273"
-                src={url}
-                sx={{ height: 40, width: 40 }}
-              />
+              {guestUser === "Guest" ? (
+                <Avatar />
+              ) : (
+                <Avatar
+                  // src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273"
+                  src={url}
+                  sx={{ height: 40, width: 40 }}
+                />
+              )}
             </div>
           </Tooltip>
         </div>
@@ -149,8 +153,10 @@ const FTWrapper = styled.div`
 
     img {
       height: 40px;
+      width: 40px;
       border-radius: 999px;
       cursor: pointer;
+      margin-right: 5px;
     }
     //search modal
     .search-modal {

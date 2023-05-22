@@ -10,11 +10,15 @@ const Feeds = () => {
 
   useEffect(() => {
     const unsubscribe = async () => {
-      const postRef = collection(database, "posts");
-      const qur = query(postRef, orderBy("timestamp", "desc"));
-      onSnapshot(qur, (item) => {
-        setData(item.docs.map((item) => ({ ...item.data(), id: item.id })));
-      });
+      try {
+        const postRef = collection(database, "posts");
+        const qur = query(postRef, orderBy("timestamp", "desc"));
+        onSnapshot(qur, (item) => {
+          setData(item.docs.map((item) => ({ ...item.data(), id: item.id })));
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
     return unsubscribe;
   }, []);

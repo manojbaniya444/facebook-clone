@@ -152,9 +152,11 @@ const ChatGlobal = ({ setOpenChatModal }) => {
 const CGWrapper = styled.section`
   font-family: "Roboto Condensed", sans-serif;
   .container {
-    height: 90vh;
+    height: 70vh;
     padding: 10px;
-    width: 400px;
+    max-width: 500px;
+    width: 75%;
+    /* height: 70%; */
     background-color: red;
     position: absolute;
     display: flex;
@@ -162,6 +164,7 @@ const CGWrapper = styled.section`
     z-index: 3;
     gap: 5px;
     top: 60px;
+    /* left: 20px; */
     right: 20px;
     border-radius: 6px;
     background: #ffffff;
@@ -182,17 +185,20 @@ const CGWrapper = styled.section`
 
       .single-message {
         display: flex;
-        align-items: flex-end;
+        /* align-items: flex-end; */
         gap: 9px;
         margin-right: 5px;
+        max-width: 50%;
+        
+
         .name {
-          font-size: 0.9rem;
+          font-size: 11px;
           font-weight: 800;
           margin-left: 5px;
         }
         .desc {
           word-spacing: 1px;
-          font-size: 1rem;
+          font-size: 12px;
           background-color: ${({ theme }) => theme.colors.gray};
           padding: 9px;
           border-radius: 9px;
@@ -200,6 +206,7 @@ const CGWrapper = styled.section`
       }
       .user-message {
         align-self: flex-end;
+        text-align: center;
         .desc {
           background-color: ${({ theme }) => theme.colors.blue};
           color: white;
@@ -262,6 +269,7 @@ const CGWrapper = styled.section`
       position: static;
       /* flex: 25%; */
       width: auto;
+      height: 90vh;
       font-size: 10px;
     }
   }

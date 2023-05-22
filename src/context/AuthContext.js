@@ -32,16 +32,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signIn = async () => {
-    const res = await signInWithPopup(auth, provider);
+    return await signInWithPopup(auth, provider);
 
-    const usersRef = collection(database, "users");
-    addDoc(usersRef, {
-      username: res?.user.displayName,
-      userid: res?.user.uid,
-      profileURL: res?.user.photoURL,
-      timestamp: serverTimestamp(),
-    });
-    return true;
+    // const usersRef = collection(database, "users");
+    // addDoc(usersRef, {
+    //   username: res?.user.displayName,
+    //   userid: res?.user.uid,
+    //   profileURL: res?.user.photoURL,
+    //   timestamp: serverTimestamp(),
+    // });
   };
   const signout = () => {
     signOut(auth);

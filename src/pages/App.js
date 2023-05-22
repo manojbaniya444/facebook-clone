@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 const theme = {
   colors: {
     gray: "#f0f2f5",
-    blue: "#1876f2 ",
+    blue: " #2C82C9 ",
     darkgray: "#dbdee2",
   },
   responsive: {
