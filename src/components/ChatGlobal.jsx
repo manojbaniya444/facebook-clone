@@ -6,10 +6,12 @@ import { Avatar } from "@mui/material";
 import {
   addDoc,
   collection,
+  deleteDoc,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  doc,
 } from "firebase/firestore";
 import { database } from "../firebaseConfig";
 import { useAuthContext } from "../context/AuthContext";
@@ -21,8 +23,7 @@ const ChatGlobal = ({ setOpenChatModal }) => {
   const [messageList, setMessageList] = useState();
 
   const inputRef = useRef(null);
-
-  console.log(messageList);
+  const chatRef = useRef(null);
 
   const { user, guestUser } = useAuthContext();
 
@@ -40,6 +41,9 @@ const ChatGlobal = ({ setOpenChatModal }) => {
       desc: messageInput,
       timestamp: serverTimestamp(),
     });
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
     setMessageInput("");
   };
 
@@ -50,14 +54,24 @@ const ChatGlobal = ({ setOpenChatModal }) => {
     if (!guestUser) {
       inputRef.current.focus();
     }
-    console.log("once");
     const messageRef = collection(database, "globalchat");
     const q = query(messageRef, orderBy("timestamp"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
+      let messageSize = snapshot.size;
+      // Deleting old messages
+      if (messageSize > 30) {
+        const numToDelete = messageSize - 30;
+        const oldestMessages = snapshot.docs.slice(0, numToDelete);
+        oldestMessages.forEach((document) => {
+          const deleteRef = doc(database, "globalchat", `${document.id}`);
+          deleteDoc(deleteRef);
+        });
+      }
       setMessageList(
         snapshot.docs.map((item) => ({ ...item.data(), id: item.id }))
       );
     });
+    // Clean up function
     return () => {
       unsubscribe();
     };
@@ -69,13 +83,21 @@ const ChatGlobal = ({ setOpenChatModal }) => {
     <CGWrapper>
       <div className="container">
         <div className="top">
-          <p className="title">Global Chat</p>
+          <p className="title">
+            Global Chat <br />
+          </p>
           <div className="close-btn" onClick={() => setOpenChatModal(false)}>
             <CloseIcon />
           </div>
         </div>
+        <p className="chat-notice">
+          Attention! This global chat has a message limit of 30 chats. Any
+          messages beyond this limit will be automatically deleted or rendered
+          unavailable. Please keep this in mind when engaging in conversations
+          and avoid spamming.
+        </p>
         <hr />
-        <div className="messages">
+        <div className="messages" ref={chatRef}>
           {/* All messages list  */}
 
           {messageList?.map((item, index) => {
@@ -88,7 +110,15 @@ const ChatGlobal = ({ setOpenChatModal }) => {
                 }`}
                 key={index}
               >
-                {user?.uid !== item?.userId && <Avatar src={item?.photoURL} />}
+                {user?.uid !== item?.userId && (
+                  <Avatar
+                    sx={{
+                      width: 30,
+                      height: 30,
+                    }}
+                    src={item?.photoURL}
+                  />
+                )}
 
                 <div className="mes">
                   {user?.uid !== item?.userId && (
@@ -130,11 +160,15 @@ const CGWrapper = styled.section`
     display: flex;
     flex-direction: column;
     z-index: 3;
+    gap: 5px;
     top: 60px;
     right: 20px;
     border-radius: 6px;
     background: #ffffff;
     box-shadow: 5px 5px 10px #666666, -5px -5px 10px #ffffff;
+    .chat-notice {
+      font-size: 0.7rem;
+    }
     .messages {
       overflow-y: scroll;
       margin-top: 10px;
@@ -152,15 +186,15 @@ const CGWrapper = styled.section`
         gap: 9px;
         margin-right: 5px;
         .name {
-          font-size: 1rem;
-          font-weight: 400;
+          font-size: 0.9rem;
+          font-weight: 800;
           margin-left: 5px;
         }
         .desc {
           word-spacing: 1px;
-          font-size: 1.1rem;
+          font-size: 1rem;
           background-color: ${({ theme }) => theme.colors.gray};
-          padding: 10px;
+          padding: 9px;
           border-radius: 9px;
         }
       }
@@ -173,7 +207,7 @@ const CGWrapper = styled.section`
       }
     }
     .top {
-      padding: 10px;
+      padding: 5px;
       display: flex;
       align-items: center;
       flex: 5%;
@@ -187,6 +221,9 @@ const CGWrapper = styled.section`
         border-radius: 3px;
         &:hover {
           background-color: ${({ theme }) => theme.colors.gray};
+        }
+        @media (min-width: ${({ theme }) => theme.responsive.tablet}) {
+          display: none;
         }
       }
       .title {
@@ -203,8 +240,9 @@ const CGWrapper = styled.section`
         flex: 2;
         border: none;
         outline: none;
-        font-size: 1.3rem;
-        padding: 5px;
+        font-size: 0.8rem;
+        padding: 8px;
+        /* margin-top: 5px; */
         background-color: ${({ theme }) => theme.colors.gray};
         border-radius: 9px;
       }
@@ -219,6 +257,12 @@ const CGWrapper = styled.section`
           background-color: ${({ theme }) => theme.colors.gray};
         }
       }
+    }
+    @media (min-width: ${({ theme }) => theme.responsive.tablet}) {
+      position: static;
+      /* flex: 25%; */
+      width: auto;
+      font-size: 10px;
     }
   }
 `;

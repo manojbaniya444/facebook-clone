@@ -7,28 +7,6 @@ import { Audio } from "react-loader-spinner";
 const Protected = ({ children }) => {
   const { user, loading, guestUser } = useAuthContext();
 
-  // if (loading) {
-  //   return (
-  //     <Loading>
-  //       <h3>Loading page please wait...</h3>
-  //       <Audio
-  //         height="80"
-  //         width="80"
-  //         radius="9"
-  //         color="#1876f2"
-  //         ariaLabel="loading"
-  //         wrapperStyle
-  //         wrapperClass
-  //       />
-  //     </Loading>
-  //   );
-  // } else if (!user) {
-  //   return <Navigate to="/" />;
-  // } else if (guestUser === "Guest") {
-  //   return children;
-  // } else {
-  //   return children;
-  // }
   if (loading) {
     return (
       <Loading>
@@ -39,8 +17,6 @@ const Protected = ({ children }) => {
           radius="9"
           color="#1876f2"
           ariaLabel="loading"
-          wrapperStyle
-          wrapperClass
         />
       </Loading>
     );

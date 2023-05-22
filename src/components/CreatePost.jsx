@@ -61,18 +61,6 @@ const CreatePost = () => {
 
   return (
     <CPWrapper>
-      <ToastContainer
-        position="top-center"
-        autoClose={500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div className="CP-top">
         <Avatar src={user?.photoURL} />
         <form className="form">

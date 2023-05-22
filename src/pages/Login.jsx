@@ -26,10 +26,7 @@ const Login = () => {
     <LWrapper>
       <div className="page">
         <div className="img">
-          <img
-            src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
-            alt=""
-          />
+          <p className="title">Social Site</p>
         </div>
         <button onClick={signInHandler}>Continue with google</button>
         <button className="guest-user" onClick={guestHandler}>
@@ -69,8 +66,12 @@ const LWrapper = styled.div`
     flex-direction: column;
     .img {
       width: 100%;
-      img {
-        width: 100%;
+      .title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 5px;
+        color: ${({theme})=> theme.colors.blue};
       }
     }
     .guest-user {

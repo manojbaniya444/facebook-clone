@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FacebookSideLeft from "../components/FacebookSideLeft";
 import FacebookMiddle from "../components/FacebookMiddle";
-import FacebookSideRight from "../components/FacebookSideRight";
 import FacebookTop from "../components/FacebookTop";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import FacebookSideRight from "../components/FacebookSideRight";
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);

@@ -34,12 +34,22 @@ function FacebookTop() {
       // navigate("/");
     }
   };
+  // Chat open handler
+
+  const openChatHandler = () => {
+    setOpenChatModal(!openChatModal);
+    window.scrollTo({
+      top:  0,
+    });
+  };
   return (
     <>
       <SearchModal />
-      {openChatModal && !guestUser && (
-        <ChatGlobal setOpenChatModal={setOpenChatModal} />
-      )}
+      <div className="chat-box-mobile">
+        {openChatModal && !guestUser && (
+          <ChatGlobal setOpenChatModal={setOpenChatModal} />
+        )}
+      </div>
 
       <FTWrapper>
         {/* TODO: Search and logo */}
@@ -48,7 +58,7 @@ function FacebookTop() {
 
           <div className="search" onClick={() => setShowModal(true)}>
             <SearchIcon />
-            <input placeholder="Search Facebook" />
+            <input placeholder="Search" />
           </div>
         </div>
 
@@ -89,10 +99,12 @@ function FacebookTop() {
           <Tooltip title="Chat" placement="bottom">
             <div
               className={`${
-                openChatModal ? "option-box active-chat" : "option-box"
+                openChatModal
+                  ? "option-box active-chat chat-btn"
+                  : "option-box chat-btn"
               }`}
             >
-              <IconButton onClick={() => setOpenChatModal(!openChatModal)}>
+              <IconButton onClick={openChatHandler}>
                 <ChatBubbleIcon />
               </IconButton>
             </div>
@@ -296,8 +308,15 @@ const FTWrapper = styled.div`
       cursor: pointer;
       background-color: ${({ theme }) => theme.colors.gray};
       border-radius: 999px;
+
       &:hover {
         background-color: #e4e6eb;
+      }
+    }
+    .chat-btn {
+      @media (min-width: ${({ theme }) => theme.responsive.tablet}) {
+        display: none;
+        background-color: ${({ theme }) => theme.colors.blue};
       }
     }
   }
