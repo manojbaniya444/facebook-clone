@@ -24,11 +24,7 @@ const FacebookSideRight = () => {
 
   return (
     <FBSRWrapper>
-      {guestUser === "Guest" ? (
-        <p className="guest-info">Login to access global chat</p>
-      ) : (
-        <ChatGlobal />
-      )}
+      <ChatGlobal />
     </FBSRWrapper>
   );
 };
@@ -38,7 +34,7 @@ const FBSRWrapper = styled.section`
   height: calc(100vh - 77px);
   align-self: top;
   position: sticky;
-  flex: 25%;
+  flex: 30%;
   top: 77px;
   .guest-info {
     font-size: 1.2rem;

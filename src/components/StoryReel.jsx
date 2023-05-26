@@ -56,13 +56,14 @@ const StoryReel = () => {
   // Fetch stories
 
   useEffect(() => {
-    const unsubscribe = async () => {
-      const storyRef = collection(database, "stories");
-      onSnapshot(storyRef, (data) => {
-        setStories(data.docs.map((item) => ({ ...item.data(), id: item.id })));
-      });
+    const storyRef = collection(database, "stories");
+    const unsubscribe = onSnapshot(storyRef, (data) => {
+      setStories(data.docs.map((item) => ({ ...item.data(), id: item.id })));
+    });
+
+    return () => {
+      unsubscribe();
     };
-    return unsubscribe;
   }, []);
 
   // console.log(stories);
@@ -89,33 +90,22 @@ const StoryReel = () => {
 
       <div className="story-component" id="slider">
         {!guestUser && (
+          // Story photo upload
           <div className="create">
-            {/* Conditional Loading for story post */}
-
-            {!storyLoading ? (
-              <>
-                <div className="select-photo">
-                  <input
-                    type="file"
-                    id="story-file"
-                    ref={inputRef}
-                    onChange={inputChangeHandler}
-                  />
-                  <label htmlFor="story-file">
-                    <AddIcon />
-                  </label>
-                  <h3>Share your story</h3>
-                  {storyImg !== null && <p>Ready to post</p>}
-                  <button onClick={postStoryHandler}>post</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="loading">
-                  <CircularProgress />
-                </div>
-              </>
-            )}
+            <div className="select-photo">
+              <input
+                type="file"
+                id="story-file"
+                ref={inputRef}
+                onChange={inputChangeHandler}
+              />
+              <label htmlFor="story-file">
+                <AddIcon />
+              </label>
+              <h3>Share your story</h3>
+              {storyImg !== null && <p>Ready to post</p>}
+              <button onClick={postStoryHandler}>post</button>
+            </div>
 
             <div className="image-div">
               <Avatar src={user?.photoURL} sx={{ height: 50, width: 50 }} />
@@ -125,7 +115,7 @@ const StoryReel = () => {
 
         {/* Story COmponent */}
 
-        {stories.map((item) => {
+        {stories?.map((item) => {
           return (
             <StoryComponent
               key={item.id}
@@ -146,16 +136,17 @@ const StoryReel = () => {
 const SRWrapper = styled.section`
   /* max-width: 500px; */
   width: 100%;
-  background-color: white;
-  border-radius: 9px;
+  background-color: ${({ theme }) => theme.colors.base};
+  border-radius: 20px;
   position: relative;
   /* height: 300px; */
   .create {
-    width: 120px;
+    min-width: 110px;
     height: 200px;
     margin: 15px 9px 15px 40px;
     border-radius: 9px;
-    background-color: black;
+    background-color: ${({ theme }) => theme.colors.gray};
+    overflow: hidden;
     .loading {
       padding: 20px;
       background-color: ${({ theme }) => theme.colors.gray};
@@ -166,7 +157,7 @@ const SRWrapper = styled.section`
     }
     p {
       margin-bottom: 5px;
-      color: #056e97;
+      color: ${({ theme }) => theme.colors.blue};
     }
     .image-div {
       display: flex;
@@ -174,11 +165,13 @@ const SRWrapper = styled.section`
       margin-top: 15px;
     }
     .select-photo {
-      background-color: #eceaea;
-      display: flex;
+      background-color: ${({ theme }) => theme.colors.gray};
+      color: ${({ theme }) => theme.colors.text};
       flex-direction: column;
       border-top-left-radius: 9px;
       align-items: center;
+      justify-content: center;
+      text-align: center;
       border-top-right-radius: 9px;
       h3 {
         font-weight: 400;
@@ -190,7 +183,7 @@ const SRWrapper = styled.section`
       }
       button {
         background-color: ${({ theme }) => theme.colors.blue};
-        color: white;
+        color: ${({theme}) => theme.colors.invert};
         border: none;
         border-radius: 5px;
         padding: 5px 10px;
@@ -212,14 +205,14 @@ const SRWrapper = styled.section`
     top: 140px;
     left: 10px;
     z-index: 3;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: ${({ theme }) => theme.colors.gray};
     padding: 15px;
     border-radius: 999px;
     opacity: 0.3;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
       display: none;
     }
@@ -227,9 +220,7 @@ const SRWrapper = styled.section`
       opacity: 0.8;
     }
     .MuiSvgIcon-root {
-      color: black;
-      cursor: pointer;
-      background-color: white;
+      color: ${({ theme }) => theme.colors.icon};
     }
   }
   .end-icon {
@@ -238,7 +229,7 @@ const SRWrapper = styled.section`
     right: 10px;
     z-index: 3;
     opacity: 0.3;
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.gray};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -252,7 +243,7 @@ const SRWrapper = styled.section`
     }
     cursor: pointer;
     .MuiSvgIcon-root {
-      color: black;
+      color: ${({ theme }) => theme.colors.icon};
     }
   }
   .story-component {
@@ -286,20 +277,20 @@ const SRWrapper = styled.section`
       align-items: center;
       justify-content: center;
       border-radius: 9px;
+      color: ${({ theme }) => theme.colors.text};
       &:hover {
         background-color: ${({ theme }) => theme.colors.gray};
       }
     }
     .active {
       &:hover {
-        background-color: white;
+        background-color: ${({theme}) => theme.colors.gray};
       }
     }
 
     .active::after {
       content: "";
       position: absolute;
-      background-color: white;
       width: 100%;
       height: 3px;
       background-color: ${({ theme }) => theme.colors.blue};
@@ -317,7 +308,7 @@ const SRWrapper = styled.section`
       width: 270px;
       height: 50px;
       border-radius: 9px;
-
+      color: ${({ theme }) => theme.colors.text};
       cursor: pointer;
       display: flex;
       align-items: center;

@@ -15,7 +15,7 @@ const Protected = ({ children }) => {
           height="80"
           width="80"
           radius="9"
-          color="#1876f2"
+          color="#6b4de6"
           ariaLabel="loading"
         />
       </Loading>
@@ -32,15 +32,17 @@ const Protected = ({ children }) => {
 };
 
 const Loading = styled.div`
+  height: 100vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  padding-top: 4rem;
   align-items: center;
   flex-direction: column;
-  margin-top: 100px;
+  background-color: ${({ theme }) => theme.colors.gray};
   h3 {
     text-align: center;
     margin-top: 20px;
-    color: ${({ theme }) => theme.colors.blue};
+    color: ${({ theme }) => theme.colors.text};
     font-weight: 600;
     font-size: 1.4rem;
   }

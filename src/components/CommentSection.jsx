@@ -95,7 +95,7 @@ function CommentSection({ id, commentList }) {
 }
 
 const CSWrapper = styled.div`
-  background-color: white;
+  background-color: ${({theme}) => theme.colors.base};
 
   .more-comments {
     display: none;
@@ -115,6 +115,7 @@ const CSWrapper = styled.div`
       border: none;
       outline: none;
       background-color: ${({ theme }) => theme.colors.gray};
+      color: ${({theme}) => theme.colors.text};
       border-radius: 5px;
     }
     button {
@@ -127,7 +128,7 @@ const CSWrapper = styled.div`
       cursor: pointer;
       border-radius: 5px;
       &:hover {
-        background-color: #09499c;
+        background-color: ${({theme}) => theme.colors.gray};
       }
     }
   }
@@ -148,19 +149,23 @@ const CSWrapper = styled.div`
       display: flex;
       align-items: start;
       gap: 1rem;
+      background-color: ${({theme}) => theme.colors.base};
       /* background-color: white; */
       .content {
-        background-color: ${({ theme }) => theme.colors.darkgray};
+        background-color: ${({ theme }) => theme.colors.gray};
+        color: ${({theme}) => theme.colors.text};
         padding: 5px;
         border-radius: 9px;
       }
       .name {
         font-size: 1rem;
         font-weight: 600;
+        color: ${({theme}) => theme.colors.text};
       }
       .comment {
         margin-top: 5px;
         font-weight: 400;
+        color: ${({theme}) => theme.colors.text};
       }
     }
   }

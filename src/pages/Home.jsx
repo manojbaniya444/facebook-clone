@@ -46,10 +46,11 @@ const Home = () => {
   );
 };
 const Button = styled.div`
-  position: fixed;
-  bottom: 30px;
+  position: absolute;
+  bottom: 20px;
   right: 20px;
-  background-color: gray;
+  background-color: #d9d5d5;
+  /* background-color: black; */
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
@@ -58,16 +59,13 @@ const Button = styled.div`
 `;
 
 const MainContentWrapper = styled.main`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 20px;
-
-  /* New Code */
+  padding-top: 20px;
+  min-height: (calc(100vh - 51px));
   display: flex;
   align-items: start;
   gap: 1rem;
-
-  /* New Code */
+  background-color: ${({ theme }) => theme.colors.gray};
+  transition: all 0.3s ease;
   @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
     display: flex;
     justify-content: center;

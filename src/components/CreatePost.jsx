@@ -16,6 +16,10 @@ const CreatePost = () => {
 
   // Functions
 
+  const fileChooseHandler = () => {
+    document.getElementById("submit-file").click();
+  };
+
   const fileChangeHandler = async (e) => {
     e.preventDefault();
     const file = inputFileRef.current.files[0];
@@ -27,6 +31,7 @@ const CreatePost = () => {
     e.preventDefault();
     if (guestUser) {
       alert("Login to post");
+      setInput("");
     } else if (!guestUser && input === "" && image === null) {
       toast.warn("Field cannot be empty", {
         position: "top-center",
@@ -41,6 +46,7 @@ const CreatePost = () => {
     } else {
       if (guestUser) {
         alert("Login to post");
+        setInput("");
       } else {
         await submitPost(input, image);
         setInput("");
@@ -62,7 +68,8 @@ const CreatePost = () => {
   return (
     <CPWrapper>
       <div className="CP-top">
-        <Avatar src={user?.photoURL} />
+        {!guestUser && <Avatar src={user?.photoURL} />}
+
         <form className="form">
           <input
             placeholder={
@@ -80,12 +87,13 @@ const CreatePost = () => {
         <p className="selected-image">Image selected: {image.name}</p>
       )}
       <hr />
+      {/* // Photos videos and feelings */}
       <div className="CP-bottom">
         <div className="box1">
           <LiveTvIcon style={{ color: "red" }} />
           <h4>Live Video</h4>
         </div>
-        <div className="box1 file-box">
+        <div className="box1 file-box" onClick={fileChooseHandler}>
           <PhotoSizeSelectActualIcon style={{ color: "green" }} />
           <input
             id="submit-file"
@@ -95,7 +103,8 @@ const CreatePost = () => {
             onChange={fileChangeHandler}
           />
           <h4>
-            <label htmlFor="submit-file">Photo</label>
+            {/* <label htmlFor="submit-file">Photo</label> */}
+            Photo
           </h4>
         </div>
         <div className="box1">
@@ -109,9 +118,9 @@ const CreatePost = () => {
 
 const CPWrapper = styled.section`
   width: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.base};
   margin-top: 15px;
-  border-radius: 9px;
+  border-radius: 20px;
   padding: 15px;
   .selected-image {
     text-align: center;
@@ -144,6 +153,7 @@ const CPWrapper = styled.section`
       border-radius: 9px;
       cursor: pointer;
       transition: 0.1s ease;
+      color: ${({ theme }) => theme.colors.text};
       &:hover {
         background-color: ${({ theme }) => theme.colors.gray};
       }
@@ -175,10 +185,11 @@ const CPWrapper = styled.section`
       input {
         flex: 1;
         padding: 1rem 1.7rem;
-        border-radius: 9px;
+        border-radius: 12px;
         outline: none;
         border: none;
         font-size: 1rem;
+        color: ${({ theme }) => theme.colors.text};
         background-color: ${({ theme }) => theme.colors.gray};
         @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
           padding: 0.71rem 1.3rem;
@@ -187,17 +198,18 @@ const CPWrapper = styled.section`
       }
       button {
         margin-right: 5px;
-        padding: 1rem 1.7rem;
-        border-radius: 9px;
+        margin-left: 5px;
+        padding: 0.8rem 1.3rem;
+        border-radius: 13px;
         border: none;
         outline: none;
         background-color: ${({ theme }) => theme.colors.blue};
         color: white;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         cursor: pointer;
         transition: 0.3s ease;
         &:hover {
-          background-color: #1262b3;
+          background-color: ${(props) => props.theme.colors.gray};
         }
         @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
           padding: 0.71rem 1.3rem;

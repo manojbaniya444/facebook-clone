@@ -1,15 +1,10 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
 import {
   arrayUnion,
-  collection,
   deleteDoc,
   doc,
-  getDoc,
-  getDocs,
   onSnapshot,
-  query,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -46,6 +41,24 @@ export const SinglePost = ({
   const [editvalue, setEditvalue] = useState(desc);
   const [isUpdating, setIsUpdating] = useState(false);
   const { user, guestUser } = useAuthContext();
+
+  const Description = () => {
+    const renderStyledText = () => {
+      const regex = /(#\w+)/g;
+      return desc.split(regex).map((part, index) => {
+        if (part.startsWith("#")) {
+          return (
+            <span key={index} className="highlighted">
+              {part}
+            </span>
+          );
+        } else {
+          return part;
+        }
+      });
+    };
+    return <div>{renderStyledText()}</div>;
+  };
 
   // TODO:New like feature code
 
@@ -156,11 +169,11 @@ export const SinglePost = ({
                   onChange={(e) => setEditvalue(e.target.value)}
                 />
                 <div className="btn-container">
-                  <button className="edit-btn" onClick={editHandler}>
-                    Confirm
-                  </button>
                   <button className="discard-btn" onClick={discardHandler}>
                     Discard
+                  </button>
+                  <button className="edit-btn" onClick={editHandler}>
+                    Confirm
                   </button>
                 </div>
               </>
@@ -172,7 +185,7 @@ export const SinglePost = ({
 
         <Avatar src={profilesrc} />
         <div className="title">
-          <h4>{username}</h4>
+          <h4 className="username">{username}</h4>
           {timeSpecial === "Midnight" && (
             <p>
               Midnight
@@ -217,9 +230,17 @@ export const SinglePost = ({
         )}
       </div>
       <div className="description">
-        <Typography variant="body1">{desc}</Typography>
+        {/* <Typography variant="body1">{desc}</Typography> */}
+        <Typography variant="body1" component="div">
+          <Description />
+        </Typography>
       </div>
-      <div className="image">{src !== "" && <img src={src} alt="/" />}</div>
+      {/* <div className="image">{src !== "" && <img src={src} alt="/" />}</div> */}
+      {src !== "" && (
+        <div className="image">
+          <img src={src} alt="" />
+        </div>
+      )}
 
       {/* // Display total numbers of likes and comments */}
       {!timeSpecial && (
@@ -270,7 +291,8 @@ export const SinglePost = ({
 
 const EditModal = styled.div`
   border-radius: 6px;
-  background: #ffffff;
+  background: ${({ theme }) => theme.colors.base};
+  /* TODO: dark mode elevation */
   box-shadow: 18px -18px 35px #e0e0e0, -18px 18px 35px #ffffff;
   position: absolute;
   width: 300px;
@@ -291,10 +313,12 @@ const EditModal = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    gap: 1rem;
     button {
       border: none;
       border-radius: 5px;
       padding: 5px 10px;
+      flex: 30%;
       background-color: white;
       cursor: pointer;
       &:hover {
@@ -313,7 +337,7 @@ const EditModal = styled.div`
 const Modal = styled.div`
   position: absolute;
   z-index: 10;
-  background-color: ${({ theme }) => theme.colors.darkgray};
+  background-color: ${({ theme }) => theme.colors.gray};
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -326,12 +350,16 @@ const Modal = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 1.8rem;
+
     .btn1 {
       padding: 5px 10px;
       cursor: pointer;
       border: none;
-      border-radius: 3px;
+      border-radius: 5px;
       font-size: 1.2rem;
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.base};
+      }
     }
 
     .btn2 {
@@ -339,7 +367,7 @@ const Modal = styled.div`
       border: none;
       background-color: ${({ theme }) => theme.colors.blue};
       color: white;
-      border-radius: 2px;
+      border-radius: 5px;
       font-size: 1.2rem;
       cursor: pointer;
     }
@@ -347,10 +375,11 @@ const Modal = styled.div`
 `;
 
 const SWrapper = styled.article`
+  color: ${({ theme }) => theme.colors.text};
   width: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.base};
   margin-top: 15px;
-  border-radius: 9px;
+  border-radius: 20px;
   position: relative;
   padding-bottom: 10px;
   .modalbar {
@@ -362,7 +391,7 @@ const SWrapper = styled.article`
     flex-direction: column;
     z-index: 2;
     border-radius: 0px;
-    background: #ffffff;
+    background: ${({ theme }) => theme.colors.base};
     box-shadow: 11px -11px 22px #ebebeb, -11px 11px 22px #ffffff;
     div {
       padding: 5px 10px;
@@ -383,6 +412,9 @@ const SWrapper = styled.article`
     padding: 5px 3px;
     border-radius: 5px;
     position: relative;
+    .MuiSvgIcon-root {
+      color: ${({ theme }) => theme.colors.icon};
+    }
     &:hover {
       background-color: ${({ theme }) => theme.colors.gray};
     }
@@ -406,7 +438,7 @@ const SWrapper = styled.article`
     margin-top: 5px;
     justify-content: center;
     gap: 0.3rem;
-    padding-bottom: 10px;
+    padding: 10px 0;
     .active-like-btn {
       color: ${({ theme }) => theme.colors.blue};
     }
@@ -419,8 +451,7 @@ const SWrapper = styled.article`
       justify-content: center;
       color: gray;
       gap: 0.3rem;
-      /* background-color: ${({ theme }) => theme.colors.gray}; */
-      background-color: white;
+      background-color: ${({ theme }) => theme.colors.base};
       cursor: pointer;
       border-radius: 5px;
       font-size: 1.1rem;
@@ -441,6 +472,10 @@ const SWrapper = styled.article`
       flex-direction: column;
       flex: 1;
       gap: 0.2rem;
+      font-family: "Noto Sans", sans-serif;
+      .username {
+        font-weight: 900;
+      }
       p {
         color: gray;
         display: flex;
@@ -453,14 +488,24 @@ const SWrapper = styled.article`
       }
     }
   }
+
+  // Uploaded image styling
+
   .description {
     padding: 7px 15px;
+    color: ${({ theme }) => theme.colors.text};
+    .highlighted {
+      color: ${({ theme }) => theme.colors.blue};
+      font-weight: 700;
+    }
   }
   .image {
     width: 100%;
-    /* height: 400px; */
+    height: 400px;
+    padding: 0 20px;
     margin-top: 15px;
     img {
+      border-radius: 20px;
       width: 100%;
       height: 100%;
       object-fit: cover;

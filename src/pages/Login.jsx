@@ -71,28 +71,28 @@ const LWrapper = styled.div`
         font-weight: 600;
         text-align: center;
         margin-bottom: 5px;
-        color: ${({ theme }) => theme.colors.blue};
+        color: #6b4de6;
       }
     }
     .guest-user {
-      background-color: ${({ theme }) => theme.colors.gray};
+      background-color: #f0eef6;
       margin-top: 15px;
       color: black;
       &:hover {
-        background-color: ${({ theme }) => theme.colors.darkgray};
+        background-color: #d7d4e1;
       }
     }
   }
   button {
     padding: 10px 20px;
-    background-color: #1876f2;
+    background-color: #6b4de6;
     border: none;
     border-radius: 3px;
     color: white;
     font-size: 1.3rem;
     cursor: pointer;
     &:hover {
-      background-color: #0f5fa1;
+      background-color: #5837de;
     }
   }
 `;

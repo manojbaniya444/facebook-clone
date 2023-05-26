@@ -18,17 +18,18 @@ const SLCWrapper = styled.section`
   border-radius: 9px;
   max-width: 270px;
   width: 100%;
+  color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
-  .MuiSvgIcon-root{
+  .MuiSvgIcon-root {
     font-size: 2.1875rem;
-    color: ${({theme})=> theme.colors.blue};
+    color: ${({ theme }) => theme.colors.blue};
   }
   h4 {
     margin-left: 8px;
     font-weight: 600;
   }
   &:hover {
-    background-color: ${({ theme }) => theme.colors.darkgray};
+    background-color: ${({ theme }) => theme.colors.base};
   }
 `;
 

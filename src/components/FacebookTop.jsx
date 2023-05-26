@@ -7,7 +7,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import AppsIcon from "@mui/icons-material/Apps";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { Avatar, IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import SearchModal from "./SearchModal";
@@ -15,12 +15,15 @@ import { useAppContext } from "../context/context";
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ChatGlobal from "./ChatGlobal";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import LoginIcon from "@mui/icons-material/Login";
 
 function FacebookTop() {
   const [openChatModal, setOpenChatModal] = useState(false);
-  const { showModal, setShowModal } = useAppContext();
+  const { setShowModal } = useAppContext();
 
-  const { user, signout, setGuestUser, guestUser } = useAuthContext();
+  const { user, signout, setGuestUser, guestUser, themeHandler, darkMode } =
+    useAuthContext();
   let url = user?.photoURL;
 
   const navigate = useNavigate();
@@ -31,7 +34,6 @@ function FacebookTop() {
       navigate("/");
     } else {
       await signout();
-      // navigate("/");
     }
   };
   // Chat open handler
@@ -42,21 +44,25 @@ function FacebookTop() {
       top: 0,
     });
   };
+
+  const homeHandler = () => {
+    window.scrollTo({
+      top: 0,
+    });
+  };
   return (
     <>
       <SearchModal />
       <div className="chat-box-mobile">
-        {openChatModal && !guestUser && (
-          <ChatGlobal setOpenChatModal={setOpenChatModal} />
-        )}
+        {openChatModal && <ChatGlobal setOpenChatModal={setOpenChatModal} />}
       </div>
 
       <FTWrapper>
         {/* TODO: Search and logo */}
-        <div className="FT-left">
-          <img src="./logo.jpeg" alt="facebook-logo" />
+        <div className="FT-left" onClick={homeHandler}>
+          <img src="./logoo.jpeg" alt="logo" />
 
-          <div className="search" onClick={() => setShowModal(true)}>
+          <div className="search" onClick={() => setShowModal(null)}>
             <SearchIcon />
             <input placeholder="Search" />
           </div>
@@ -110,16 +116,18 @@ function FacebookTop() {
             </div>
           </Tooltip>
 
-          <Tooltip title="Notifications" placement="bottom">
+          <Tooltip title="Theme" placement="bottom">
             <div className="option-box">
-              <NotificationsIcon />
+              <IconButton onClick={themeHandler}>
+                {!darkMode ? <DarkModeIcon /> : <LightModeIcon />}
+              </IconButton>
             </div>
           </Tooltip>
 
           <Tooltip title="Logout">
             <div className="option-box" onClick={logOut}>
-              {guestUser === "Guest" ? (
-                <Avatar />
+              {guestUser ? (
+                <LoginIcon />
               ) : (
                 <Avatar
                   // src="https://scontent.fbir1-1.fna.fbcdn.net/v/t39.30808-1/285655908_3373164079578086_2980410443097564711_n.jpg?stp=dst-jpg_s480x480&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=CsjaHNzkrfcAX9MO7w5&_nc_ht=scontent.fbir1-1.fna&oh=00_AfBJS6qJ7hYvGhQ3yOFz6t5Qej20EWXzDKu-GMuY5IFhRQ&oe=645E5273"
@@ -138,10 +146,11 @@ function FacebookTop() {
 const FTWrapper = styled.div`
   //Padding side 20px
   position: sticky;
+  color: ${({ theme }) => theme.colors.text};
   top: 0;
   z-index: 9;
   display: flex;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.base};
   align-items: center;
   justify-content: space-between;
   padding: 0 5px;
@@ -149,6 +158,7 @@ const FTWrapper = styled.div`
   /* left part css */
   .FT-left {
     display: flex;
+    flex: 25%;
     /* padding: 5px 10px; */
 
     img {
@@ -164,7 +174,7 @@ const FTWrapper = styled.div`
       z-index: 99;
       top: 0px;
       left: 0px;
-      background-color: white;
+      background-color: ${({ theme }) => theme.colors.base};
       height: 400px;
       padding: 5px 20px;
       border-radius: 9px;
@@ -181,10 +191,10 @@ const FTWrapper = styled.div`
           justify-content: center;
           border-radius: 999px;
           &:hover {
-            background-color: #e4e6eb;
+            background-color: ${({ theme }) => theme.colors.darkgray};
           }
           .MuiSvgIcon-root {
-            color: gray;
+            color: ${({ theme }) => theme.colors.gray};
             font-size: 30px;
           }
         }
@@ -196,7 +206,6 @@ const FTWrapper = styled.div`
           background-color: ${({ theme }) => theme.colors.gray};
           font-size: 1.3rem;
           padding: 0.9rem 1rem;
-          /* height: 30px; */
           border-radius: 999px;
           margin: 5px;
         }
@@ -217,6 +226,7 @@ const FTWrapper = styled.div`
         outline-width: none;
         border: none;
         background-color: ${({ theme }) => theme.colors.gray};
+        color: ${({ theme }) => theme.colors.text};
         font-size: 16px;
         padding: 5px 0;
         display: none;
@@ -238,15 +248,14 @@ const FTWrapper = styled.div`
   }
   //Middle Div Style
   .FT-middle {
+    flex: 50%;
     display: flex;
     flex: 1;
     align-items: center;
     gap: 6px;
-    /* margin-left: 110px; */
-    justify-content: center;
+    /* margin-left: 100px; */
+    justify-content: space-between;
     padding: 5px 0;
-    /* width: 100%;
-    max-width: 480px; */
     .icon-box {
       padding: 0.5rem 2.5rem;
       border-radius: 9px;
@@ -256,20 +265,22 @@ const FTWrapper = styled.div`
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      .MuiSvgIcon-root {
+        color: ${({ theme }) => theme.colors.icon};
+      }
       &:hover {
         background-color: ${({ theme }) => theme.colors.gray};
       }
       @media (max-width: ${({ theme }) => theme.responsive.tablet}) {
         padding: 0.5rem 1rem;
         .MuiSvgIcon-root {
-          /* font-size: 20px; */
         }
       }
     }
     .icon-box-active {
       position: relative;
       &:hover {
-        background-color: white;
+        background-color: ${({ theme }) => theme.colors.gray};
       }
       .MuiSvgIcon-root {
         color: ${({ theme }) => theme.colors.blue};
@@ -286,7 +297,7 @@ const FTWrapper = styled.div`
     }
     .MuiSvgIcon-root {
       font-size: 30px;
-      color: gray;
+      color: ${({ theme }) => theme.colors.black};
     }
     @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
       display: none;
@@ -295,16 +306,13 @@ const FTWrapper = styled.div`
 
   //Right div css
   .FT-right {
+    flex: 30%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 0.4rem;
-    padding: 5px 0;
-    .active-chat {
-      .MuiSvgIcon-root {
-        color: ${({ theme }) => theme.colors.blue};
-      }
-    }
+    justify-content: end;
+    gap: 0.7rem;
+    padding: 5px;
+
     .option-box {
       height: 40px;
       width: 40px;
@@ -312,11 +320,19 @@ const FTWrapper = styled.div`
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      background-color: ${({ theme }) => theme.colors.gray};
+      /* background-color: ${({ theme }) => theme.colors.gray}; */
       border-radius: 999px;
+      .MuiSvgIcon-root {
+        color: ${({ theme }) => theme.colors.icon};
+      }
 
       &:hover {
-        background-color: #e4e6eb;
+        background-color: ${({ theme }) => theme.colors.gray};
+      }
+    }
+    .active-chat {
+      .MuiSvgIcon-root {
+        color: ${({ theme }) => theme.colors.blue};
       }
     }
     .chat-btn {

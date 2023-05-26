@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   addDoc,
   collection,
@@ -29,7 +30,8 @@ const ChatGlobal = ({ setOpenChatModal }) => {
 
   // Messing sending button function
 
-  const sendMessageHandler = async () => {
+  const sendMessageHandler = async (e) => {
+    e.preventDefault();
     const messageRef = collection(database, "globalchat");
     if (messageInput === "") {
       return;
@@ -47,6 +49,12 @@ const ChatGlobal = ({ setOpenChatModal }) => {
     setMessageInput("");
   };
 
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messageList]);
+
   // getting the message list from the firebase database
 
   useEffect(() => {
@@ -54,6 +62,7 @@ const ChatGlobal = ({ setOpenChatModal }) => {
     if (!guestUser) {
       inputRef.current.focus();
     }
+
     const messageRef = collection(database, "globalchat");
     const q = query(messageRef, orderBy("timestamp"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -63,6 +72,9 @@ const ChatGlobal = ({ setOpenChatModal }) => {
         const numToDelete = messageSize - 30;
         const oldestMessages = snapshot.docs.slice(0, numToDelete);
         oldestMessages.forEach((document) => {
+          if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+          }
           const deleteRef = doc(database, "globalchat", `${document.id}`);
           deleteDoc(deleteRef);
         });
@@ -80,7 +92,8 @@ const ChatGlobal = ({ setOpenChatModal }) => {
   // Component
 
   return (
-    <CGWrapper>
+    <CGWrapper
+    >
       <div className="container">
         <div className="top">
           <p className="title">
@@ -99,59 +112,81 @@ const ChatGlobal = ({ setOpenChatModal }) => {
         <hr />
         <div className="messages" ref={chatRef}>
           {/* All messages list  */}
-
-          {messageList?.map((item, index) => {
-            return (
-              <div
-                className={`${
-                  user?.uid === item.userId
-                    ? "single-message user-message"
-                    : "single-message"
-                }`}
-                key={index}
-              >
-                {user?.uid !== item?.userId && (
-                  <Avatar
-                    sx={{
-                      width: 30,
-                      height: 30,
-                    }}
-                    src={item?.photoURL}
-                  />
-                )}
-
-                <div className="mes">
+          <AnimatePresence initial={false}>
+            {messageList?.map((item, index) => {
+              return (
+                <div
+                  className={`${
+                    user?.uid === item.userId
+                      ? "single-message user-message"
+                      : "single-message"
+                  }`}
+                  key={index}
+                >
                   {user?.uid !== item?.userId && (
-                    <p className="name">{item?.userName}</p>
+                    <Avatar
+                      sx={{
+                        width: 30,
+                        height: 30,
+                      }}
+                      src={item?.photoURL}
+                    />
                   )}
 
-                  <p className="desc">{item?.desc}</p>
+                  <div className="mes">
+                    {user?.uid !== item?.userId && (
+                      <p className="name">{item?.userName}</p>
+                    )}
+                    <Animate
+                      initial={{ opacity: 0.5, x: 50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0.5, x: 50 }}
+                      transition={{ duration: 0.3 }}
+                      className="desc"
+                    >
+                      {item?.desc}
+                    </Animate>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}{" "}
+          </AnimatePresence>
         </div>
         {/* //Message list div end */}
         {/* // Message send div */}
-        <div className="send-message">
-          <input
-            value={messageInput}
-            ref={inputRef}
-            onChange={(e) => setMessageInput(e.target.value)}
-          />
-          <button onClick={sendMessageHandler}>
-            <SendIcon />
-          </button>
-        </div>
+        {!guestUser ? (
+          <form className="send-message" onSubmit={sendMessageHandler}>
+            <input
+              placeholder="Aa"
+              value={messageInput}
+              ref={inputRef}
+              onChange={(e) => setMessageInput(e.target.value)}
+            />
+            <button type="submit">
+              <SendIcon />
+            </button>
+          </form>
+        ) : (
+          <div className="guest-info">Login to chat</div>
+        )}
+
         {/* // Message send div end */}
       </div>
     </CGWrapper>
   );
 };
 
-const CGWrapper = styled.section`
-  font-family: "Roboto Condensed", sans-serif;
+const Animate = styled(motion.p)``;
+
+const CGWrapper = styled(motion.section)`
+  /* font-family: "Roboto Condensed", sans-serif; */
+  font-family: "Poppins", sans-serif;
+  color: ${({ theme }) => theme.colors.text};
+
   .container {
+    .guest-info {
+      text-align: center;
+    }
     height: 70vh;
     padding: 10px;
     max-width: 500px;
@@ -165,14 +200,26 @@ const CGWrapper = styled.section`
     gap: 5px;
     top: 60px;
     /* left: 20px; */
-    right: 20px;
-    border-radius: 6px;
-    background: #ffffff;
-    box-shadow: 5px 5px 10px #666666, -5px -5px 10px #ffffff;
+    right: 10px;
+    border-radius: 20px;
+    border: 2px solid ${({ theme }) => theme.colors.gray};
+    background: ${({ theme }) => theme.colors.base};
+    /* box-shadow: 5px 5px 10px #666666, -5px -5px 10px #ffffff; */
     .chat-notice {
-      font-size: 0.7rem;
+      font-weight: 500;
+      /* font-size: 0.7rem; */
+      @media (max-width: ${(props) => props.theme.responsive.mobile}) {
+        font-size: 11px;
+      }
     }
     .messages {
+      overflow: hidden;
+      &::-webkit-scrollbar {
+        /* display: none; */
+        background-color: ${({ theme }) => theme.colors.gray};
+        width: 5px;
+        border-radius: 9px;
+      }
       overflow-y: scroll;
       margin-top: 10px;
       flex: 80%;
@@ -189,7 +236,6 @@ const CGWrapper = styled.section`
         gap: 9px;
         margin-right: 5px;
         max-width: 50%;
-        
 
         .name {
           font-size: 11px;
@@ -234,8 +280,9 @@ const CGWrapper = styled.section`
         }
       }
       .title {
-        font-size: 1.7rem;
+        font-size: 1.4rem;
         flex-basis: 90%;
+        font-weight: 600;
       }
     }
     .send-message {
@@ -247,8 +294,9 @@ const CGWrapper = styled.section`
         flex: 2;
         border: none;
         outline: none;
-        font-size: 0.8rem;
+        font-size: 1rem;
         padding: 8px;
+        color: ${({ theme }) => theme.colors.text};
         /* margin-top: 5px; */
         background-color: ${({ theme }) => theme.colors.gray};
         border-radius: 9px;
@@ -257,7 +305,7 @@ const CGWrapper = styled.section`
         color: ${({ theme }) => theme.colors.blue};
         border: none;
         border-radius: 5px;
-        background-color: white;
+        background-color: ${({ theme }) => theme.colors.base};
         cursor: pointer;
         padding: 5px 10px;
         &:hover {
@@ -271,6 +319,7 @@ const CGWrapper = styled.section`
       width: auto;
       height: 90vh;
       font-size: 10px;
+      border: none;
     }
   }
 `;

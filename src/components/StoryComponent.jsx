@@ -44,7 +44,7 @@ const SCWrapper = styled.article`
     }
     h4 {
       position: relative;
-      top: 83%;
+      top: 78%;
       text-align: center;
       color: white;
       font-weight: 600;

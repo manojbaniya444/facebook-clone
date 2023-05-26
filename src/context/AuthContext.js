@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [guestUser, setGuestUser] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
   provider.addScope("profile");
   provider.addScope("openid");
   provider.addScope("email");
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const guestSignIn = () => {
     alert(
-      "You will be logged in as a guest. To use features like POST,COMMENT,LIKE,STORY FEED and GLOBAL CHAT use google login."
+      "You will be logged in as a guest. To use features like create POST,STORY,LIKE and COMMENT  use google login.(safe)"
     );
     setGuestUser("Guest");
   };
@@ -131,6 +132,13 @@ export const AuthProvider = ({ children }) => {
     return true;
   };
 
+  // Darkmode / Light mode
+
+  const themeHandler = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem("dark", !darkMode);
+  };
+
   //Pass
   const object = {
     signIn,
@@ -143,6 +151,8 @@ export const AuthProvider = ({ children }) => {
     guestSignIn,
     guestUser,
     setGuestUser,
+    themeHandler,
+    darkMode,
   };
 
   return <authContext.Provider value={object}>{children}</authContext.Provider>;

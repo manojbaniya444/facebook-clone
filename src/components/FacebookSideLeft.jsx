@@ -53,6 +53,7 @@ const FacebookSideLeft = () => {
 };
 
 const Profile = styled.div`
+  color: ${({ theme }) => theme.colors.text};
   flex: 1;
   display: flex;
   align-items: center;
@@ -64,7 +65,7 @@ const Profile = styled.div`
   width: 100%;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.darkgray};
+    background-color: ${({ theme }) => theme.colors.base};
   }
   h4 {
     margin-left: 8px;
@@ -84,6 +85,7 @@ const FBSLWrapper = styled.aside`
   top: 77px;
   overflow-y: scroll;
   overflow-x: hidden;
+  color: ${({ theme }) => theme.colors.text};
   ::-webkit-scrollbar {
     display: none;
   }
@@ -95,12 +97,15 @@ const FBSLWrapper = styled.aside`
     width: 100%;
     border-radius: 9px;
     cursor: pointer;
+    .MuiSvgIcon-root {
+      color: ${({ theme }) => theme.colors.icon};
+    }
     h4 {
       margin-left: 8px;
       font-weight: 600;
     }
     &:hover {
-      background-color: ${({ theme }) => theme.colors.darkgray};
+      background-color: ${({ theme }) => theme.colors.base};
     }
   }
   @media (max-width: ${({ theme }) => theme.responsive.tablet}) {
