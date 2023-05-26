@@ -55,10 +55,21 @@ const StoryReel = () => {
 
   // Fetch stories
 
+  // useEffect(() => {
+  //   const storyRef = collection(database, "stories");
+  //   const unsubscribe = onSnapshot(storyRef, (item) => {
+  //     setStories(item.docs.map((item) => ({ ...item.data(), id: item.id })));
+  //   });
+
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+
   useEffect(() => {
     const storyRef = collection(database, "stories");
-    const unsubscribe = onSnapshot(storyRef, (data) => {
-      setStories(data.docs.map((item) => ({ ...item.data(), id: item.id })));
+    const unsubscribe = onSnapshot(storyRef, (item) => {
+      setStories(item.docs.map((item) => ({ ...item.data(), id: item.id })));
     });
 
     return () => {
@@ -118,10 +129,10 @@ const StoryReel = () => {
         {stories?.map((item) => {
           return (
             <StoryComponent
-              key={item.id}
-              username={item.author}
-              imagesrc={item.imageURL}
-              profilesrc={item.profileURL}
+              key={item?.id}
+              username={item?.author}
+              imagesrc={item?.imageURL}
+              profilesrc={item?.profileURL}
             />
           );
         })}
@@ -183,7 +194,7 @@ const SRWrapper = styled.section`
       }
       button {
         background-color: ${({ theme }) => theme.colors.blue};
-        color: ${({theme}) => theme.colors.invert};
+        color: ${({ theme }) => theme.colors.invert};
         border: none;
         border-radius: 5px;
         padding: 5px 10px;
@@ -284,7 +295,7 @@ const SRWrapper = styled.section`
     }
     .active {
       &:hover {
-        background-color: ${({theme}) => theme.colors.gray};
+        background-color: ${({ theme }) => theme.colors.gray};
       }
     }
 

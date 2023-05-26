@@ -8,13 +8,16 @@ const StoryComponent = ({ username, profilesrc, imagesrc }) => {
     <SCWrapper>
       <div
         className="wrapper"
-        style={{
-          backgroundImage: `url(${imagesrc})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat",
-        }}
+        // style={{
+        //   backgroundImage: `url(${imagesrc})`,
+        //   backgroundSize: "cover",
+        //   backgroundPosition: "center center",
+        //   backgroundRepeat: "no-repeat",
+        // }}
       >
+        <div className="image">
+          <img src={imagesrc} alt="/" />
+        </div>
         <Avatar className="avatar" src={profilesrc} />
         <h4>{username}</h4>
       </div>
@@ -25,6 +28,25 @@ const StoryComponent = ({ username, profilesrc, imagesrc }) => {
 const SCWrapper = styled.article`
   padding: 15px 9px;
   cursor: pointer;
+  position: relative;
+  .image {
+    width: 120px;
+    height: 200px;
+    top: 0;
+    position: absolute;
+    background-size: cover;
+    border-radius: 13px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 13px;
+    }
+    @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
+      width: 110px;
+      height: 180px;
+    }
+  }
   .wrapper {
     width: 120px;
     height: 200px;
@@ -48,7 +70,7 @@ const SCWrapper = styled.article`
       text-align: center;
       color: white;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
     @media (max-width: ${({ theme }) => theme.responsive.mobile}) {
       width: 110px;

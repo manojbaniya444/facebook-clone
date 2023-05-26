@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { AppContextProvider } from "../context/context";
 import Home from "./Home";
@@ -73,15 +73,20 @@ const dim = {
   },
 };
 
-let isDark = false;
-
 const App = () => {
+  const [isDark, setIsDark] = useState(false);
   const { darkMode } = useAuthContext();
+
+  useEffect(() => {
+    setIsDark(localStorage.getItem("dark"));
+  }, [darkMode]);
+
+  console.log(isDark);
 
   return (
     <AppContextProvider>
       {/* <AuthProvider> */}
-      <ThemeProvider theme={darkMode ? dark : light}>
+      <ThemeProvider theme={isDark==="true" ? dark : light}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />

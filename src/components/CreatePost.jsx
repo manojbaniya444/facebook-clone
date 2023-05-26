@@ -125,6 +125,7 @@ const CPWrapper = styled.section`
   .selected-image {
     text-align: center;
     margin: 5px 0px;
+    color: ${({ theme }) => theme.colors.text};
   }
 
   .CP-bottom {

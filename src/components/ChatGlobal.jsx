@@ -252,7 +252,7 @@ const CGWrapper = styled(motion.section)`
       }
       .user-message {
         align-self: flex-end;
-        text-align: center;
+        /* text-align: center; */
         .desc {
           background-color: ${({ theme }) => theme.colors.blue};
           color: white;
