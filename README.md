@@ -12,7 +12,8 @@
 
 ## Demo
 
-You can check the live demo []
+You can check the live demo https://social-site-3c14c.web.app/
+
 
 ## Technologies Used
 
